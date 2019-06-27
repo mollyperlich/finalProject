@@ -14,10 +14,11 @@ Dataset:
 Our problem worth solving, analyzing or visualizing:
 * Use ML to create model to analyze and utilize big data from Yelp
 
-How we will use ML:
+How we will use ML: (Some possible ideas, these are subject to change)
 * Train model to find location based on photo (example: waffles)
 * Create sentiment analysis model to see if we can predict the rating of said location
 * Predict rating based on user's overall review sentiment (are they typically a troll or a cheerleader?)
+* Narrow the variables of a page's reviews based on sentiment analysis pertaining to subjects like 'service' or 'atmosphere'
 * Implement host model in a website in order to demonstrate the analysis (using D3 or something similar)
 
 Other languages/libraries used:
