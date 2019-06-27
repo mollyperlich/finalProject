@@ -5,7 +5,7 @@ Team:
 * Scott McEachern
 * Fiona Weston
 * Connie Hu
-* David Matthews
+* David Mathews
 * Joey Ashcroft
 
 Dataset:
