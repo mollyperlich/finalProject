@@ -1,0 +1,22 @@
+{
+    "createdate" : 20190629,
+    "articles" : 
+    [
+        {
+            "title" : "Molly forgot her charger",
+            "category" : "Technology",
+            "id" : "kdfdhf333",
+            "sourceurl" : "https://google.com",
+            "content" : "This is the content right here",
+            "publishdate" : 20190628
+        },
+        {
+            "title" : "Connie Also forgot charter",
+            "category" : "Technology",
+            "id" : "kdfdhf3dfdf33",
+            "sourceurl" : "https://google.com/charger",
+            "content" : "This is the content right here and it was here",
+            "publishdate" : 20190627
+        }
+    ]
+}
