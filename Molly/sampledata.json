@@ -1,0 +1,22 @@
+{
+    "createdate" : 20190629,
+    "articles" : 
+    [
+        {
+            "title" : "Molly forgot her charger",
+            "category" : "Technology",
+            "id" : "kdfdhf333",
+            "sourceurl" : "https://google.com",
+            "content" : "This is the content right here. It's arguably the most viral moment of the US star forward's historic World Cup run. And of course, the internet immediately adopted the photo as a meme and symbol of patriotism for an American athlete and activist in her prime.",
+            "publishdate" : 20190628
+        },
+        {
+            "title" : "Connie Also forgot charter",
+            "category" : "Technology",
+            "id" : "kdfdhf3dfdf33",
+            "sourceurl" : "https://google.com/charger",
+            "content" : "This is the content right here and it was here. Her epic performance led some to suggest that the United States tear down the Confederate monuments and put up Megan Rapinoe monuments. Others pledged their allegiance to Rapinoe as their new President.",
+            "publishdate" : 20190627
+        }
+    ]
+}
