@@ -63,7 +63,13 @@
 
     //   })
 
-
+      // function to know which cell to SELECT during click event from the attribute created for sourceDate
+      function getDetails(){
+        console.log(d3.select(this))
+        console.log(d3.select(this).attr('sourceDate'))
+        // updateArticleDetails(YYYYMMDD)
+        // d3.select(this).attribute
+      }
 
       const sample = [
         { Date: "2019-01-01", Actual: "BUY", Model: "DO NOTHING" },
@@ -307,8 +313,28 @@
           )
           .attr("y", d => countDay(d.date) * cellSize + 9.0)
           .attr("fill", d => colorFn(d.model))
-          .append("title")
-          .text(d => `${formatDate(d.date)} (MODEL:${d.model})`);
+          .attr('sourceDate', d=> d.date)
+          .on('click', getDetails)
+          .on("mouseover", function (d) {
+            console.log('tooltip');
+            console.log(d);
+            toolTip.style("display", "block")
+              .html(
+                `${formatDate(d.date)} (MODEL:${d.model})`)
+              .style("left", d3.event.pageX + "px")
+              .style("top", d3.event.pageY + "px");
+          })
+          .on("mouseout", function () {
+            toolTip.style("display", "none");
+          });
+
+
+
+          // .append("title")
+          // .text(d => `${formatDate(d.date)} (MODEL:${d.model})`)
+          // .on('click', function () {
+          //   console.log('click');
+          // });
 
 
         
@@ -317,25 +343,22 @@
           .append("div")
           .classed("tooltip", true);
 
-        year.on("mouseover", function (d) {
-          console.log('tooltip');
-
-          toolTip.style("display", "block")
-            .html(
-              `${formatDate(d.date)} (MODEL:${d.model})`)
-            .style("left", d3.event.pageX + "px")
-            .style("top", d3.event.pageY + "px");
-
-        })
-
-          .on("mouseout", function () {
-            toolTip.style("display", "none");
-          })
-
-          .on('click', function () {
-            console.log('click');
-
-          })
+        // year
+        //   .on("mouseover", function (d) {
+        //     console.log('tooltip');
+        //     console.log(d);
+        //     toolTip.style("display", "block")
+        //       .html(
+        //         `${formatDate(d.date)} (MODEL:${d.model})`)
+        //       .style("left", d3.event.pageX + "px")
+        //       .style("top", d3.event.pageY + "px");
+        //   })
+          // .on("mouseout", function () {
+          //   toolTip.style("display", "none");
+          // })
+          // .on('click', function () {
+          //   console.log('click');
+          // })
 
         // // Create the event listeners with transitions
         // year.on("mouseover", function () {
