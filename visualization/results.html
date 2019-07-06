@@ -10,6 +10,7 @@
 
     <!-- CSS: Custom for Site -->
     <link rel="stylesheet" href="static/css/styles.css">
+    
 </head>
 <body>
     
@@ -66,6 +67,7 @@
         <div class="row">
             <div class="col-12">
                 <div id="calendar">
+                    <svg id="svg"></svg>
 
                 </div>
             </div>
@@ -100,9 +102,16 @@
 
     <!-- JS: D3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.2/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-color/1.2.1/d3-color.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
 
     <!-- JS: Application -->
     <script src="static/js/articleForDate.js"></script>
+    <script src="static/js/calendarHeatMap.js"></script>
     <script src="static/js/appResults.js"></script>
 </body>
 </html>
