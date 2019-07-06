@@ -1,0 +1,83 @@
+body{
+    font-family: Helvetica;
+  }
+  
+  #calendar-title{
+    display: block;
+    position: relative;
+    width: 70%;
+    margin-left: 15%;
+    text-align: center;
+    border-bottom: thin solid black;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  #calendar-wrapper{
+    position: relative;
+    display: block;
+    height: 300px;
+    width:90%;
+    margin-left: 5%;
+  }
+  
+  #graph-picklist-wrapper{
+    text-align: center;
+  }
+  
+  #calendar-click-info{
+    position: absolute;
+    display: inline-block;
+    width: 66%;
+    text-align: center;
+    font-size: 18px;
+    bottom: 30px;
+  }
+  
+  #calendar-legend{
+    position: absolute;
+    display: inline-block;
+    min-width:200px;
+    text-align: center;
+    font-size: 15px;
+    left:73%;
+    bottom: 30px;
+  }
+  
+  .month-path{
+    fill: none;
+    stroke: black;
+    stroke-width: 5px;
+  }
+  
+  .day {
+    stroke: black;
+    stroke-width:1px;
+  }
+  
+  .month-label{
+    stroke:white;
+  }
+  
+  .legend-box{
+    position: relative;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    margin: 5px 5px -4px 5px;
+  }
+  
+  #legend-box-white{
+    background-color: #b5cde1;
+    border:thin solid black;
+  }
+  #legend-box-light{
+    background-color: #588EBB;
+    border:thin solid black;
+  }
+  #legend-box-dark{
+    background-color: #386890;
+    border:thin solid black;
+  }
