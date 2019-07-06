@@ -9,10 +9,10 @@ Team:
 * Joey Ashcroft
 
 Dataset:
-* We're using NLP to predict the health of a stock based on news stories from the previous day.
+* We're using NLP to predict the health of a stock (whether we should buy, sell or hold) based on news stories from the previous day.
 
 Our problem worth solving, analyzing or visualizing:
-* Use ML to create model to analyze and utilize big data from New York Times
+* Use ML to create model to analyze and utilize big data from New York Times.
 
 How we will use ML: 
 * Train classificiation model to predict health of a stock based on content of news articles from the previous day
