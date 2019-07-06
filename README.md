@@ -17,6 +17,7 @@ Our problem worth solving, analyzing or visualizing:
 How we will use ML: 
 * Extract key information using the New York Time's API
 * Add content of each article using Beautiful Soup 
+* Gather historical stock data on over 500 Tech companies (today's price/yesterday's price)
 * Train classificiation model to predict health of a stock based on content of news articles from the previous day
 * Create sentiment analysis model to see if we can predict the direction of the stock price/whether or not they should buy, sell or hold
 * Implement host model in a website in order to demonstrate the analysis (using D3 or something similar)
