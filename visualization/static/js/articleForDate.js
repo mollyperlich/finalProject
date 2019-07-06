@@ -10,17 +10,17 @@ const ARTICLEURL = "https://1wvzwvo96a.execute-api.us-west-2.amazonaws.com/dev?s
 
 const ARTICLETITLESDIV = "#article-titles";
 
+const ARTICLEIMAGEDIV = "#article-image";
 
 
 
 function updateArticleDetails(searchDate){
-    /* Updates the UI based on the 
+    /* Updates the UI based on the search date provided.
 
     Accepts : searchDate: (int) date to populate NY Time articles for; format of YYYYMMDD
                 
     Returns : undefined
     */
-
 
     console.log("-> updateArticleDetails");
 
@@ -38,13 +38,12 @@ function updateArticleDetails(searchDate){
 
 
     //- Get Articles
-    let articles = getArticlesFromEndpoint(searchDate);
-
+    getArticlesFromEndpoint(searchDate);
 }
 
 
 function populateArticles(sourceArticles){
-    /*
+    /* Using the list of articles provided, updates the UI 
 
     Accepts : sourceArticles (array) Contains the articles for the date
                 title: (string) title of article
@@ -59,6 +58,7 @@ function populateArticles(sourceArticles){
     console.log("-> populateArticles");
 
 
+    //- Populate Articles List
     let articleList =  d3.select(ARTICLETITLESDIV);
 
     articleList.selectAll("li")
@@ -81,24 +81,38 @@ function populateArticles(sourceArticles){
             }
 
             return sourceHtml;
-        })
+        });
         
     
+    //- Populate Image
+    // Get First Valid Image
+    imageUrl = "";
 
+    for (let article of sourceArticles){
+        
+            if (article['imageurl'] != 'NA'){
+                imageUrl = article['imageurl'];
+                break;
+            }
+    }
+
+    console.log(`The url: ${imageUrl}`);
+
+    // Update UI
+    let imageDiv = d3.select(ARTICLEIMAGEDIV);
+
+    imageDiv.append('img')
+        .attr('class', 'img-thumbnail img-fluid')
+        .attr('src', imageUrl);
 }
 
 
 function getArticlesFromEndpoint(searchDate){
     /* Call AWS Lambda function to get data from endpoint
 
-    Accepts : searchDate: (int) date to get articles for
+    Accepts : searchDate: (int) date to get articles for; YYYYMMDD format
 
-    Returns : (list) articles from endpoint
-                "ID" : (string) unique identifier of article
-                "title" : (string) title of the article
-                "sourceurl" : (string) URL to the article on the NY Times website
-                "imageurl" : (string) URL to image assoicated with article; "NA" none found
-                "publishdate" : (int) year when published; YYYYMMDD
+    Returns : Undefined
     */
 
     console.log("-> getArticlesFromEndpoint");
@@ -120,9 +134,4 @@ function getArticlesFromEndpoint(searchDate){
         let emptyArticles = [];
         populateArticles(emptyArticles);
     });
-
 }
-
-
-
-

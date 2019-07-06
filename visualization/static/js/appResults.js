@@ -7,6 +7,6 @@ console.log("-> appResults.js");
 
 
 
-updateArticleDetails(20190129);
+updateArticleDetails(20190120);
 
 
