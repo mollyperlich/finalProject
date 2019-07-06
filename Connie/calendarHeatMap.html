@@ -10,7 +10,24 @@
         height: 1800;
         width: 97%;
       }
+
+      .tooltip {
+        position: absolute;
+        width: 80px;
+        height: 30px;
+        padding: 2px;
+        font: 8px sans-serif;
+        text-align: center;
+        color: white;
+        background: gray;
+        border: 0;
+        border-radius: 3px;
+        display: none;
+      }
+
     </style>
+
+<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.2/d3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-color/1.2.1/d3-color.js"></script>
@@ -25,38 +42,26 @@
     <svg id="svg"></svg>
     <script>
 
-    // pull and format the data
-    console.log('hello world');
+    // // pull and format the data
+    // console.log('hello world');
 
-      d3.json("./News_With_Labels.json").then(function (data) {
-        console.log('hello again');
-        console.log(data['articles'][0]['label']);
-        articles = data['articles'] // list of article dictionaries
-        publishdate_to_labels = {}; // {'2019-07-03': {'buys": 5, "sells":2}}
+    //   d3.json("./News_With_Labels.json").then(function (data) {
+    //     console.log('hello again');
+    //     console.log(data['articles'][0]['label']);
+    //     articles = data['articles'] // list of article dictionaries
+    //     publishdate_to_labels = {}; // {'2019-07-03': {'buys": 5, "sells":2}}
 
-        for (var i =0; i < length(articles); i++) {
-          article = articles[i]
-          publishdate = article['publishdate']
-          label = article['label']
-          // TODO check if publishdate_to_labels already has this date
-          // TODO if date is not in there yet, add one '2019-07-03': {'buys':0, 'sells':0}
-          // TODO if its a buy, increment buy by doing publishdate_to_labels[publishdate]['buy']=publishdate_to_labels[publishdate]['buy']+1
-          // TODO else increment sell
-        }
-        
-        publishdate_to_summary_label = [] // [{'Date":'2019-07-03', "Actual":'buy'}] i.e. sample
-        for (var date in publishdate_to_labels.keys) {
-          number_of_buys = publishdate_to_labels[date]['buys']
-          number_of_sells = publishdate_to_labels[date]['sells']
-          if (number_of_buys > number_of_sells) {
-            publishdate_to_summary_label.append({'Date':date, 'actual': 'buy'});
-          } else {
-            publishdate_to_summary_label.append({'Date':date, 'actual': 'sell'});
-          }
+    //     for (var i =0; i < length(articles); i++) {
+    //       article = articles[i]
+    //       publishdate = article['publishdate']
+    //       label = article['label']
+    //       // TODO check if publishdate_to_labels already has this date
+    //       // TODO if date is not in there yet, add one '2019-07-03': {'buys':0, 'sells':0}
+    //       // TODO if its a buy, increment buy by doing publishdate_to_labels[publishdate]['buy']=publishdate_to_labels[publishdate]['buy']+1
+    //       // TODO else increment sell
+    //     }
 
-        }
-
-      })
+    //   })
 
 
 
@@ -236,6 +241,9 @@
         const formatDay = d =>
           ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][d.getUTCDay()];
 
+        const formatMonth = d =>
+          ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()];
+
 
         const countDay = d => d.getUTCDay();
         const timeWeek = d3.utcSunday;
@@ -282,7 +290,7 @@
           .attr("y", d => countDay(d.date) * cellSize + 0.5)
           .attr("fill", d => colorFn(d.value))
           .append("title")
-          .text(d => `${formatDate(d.date)} (ACTUAL:${d.value})`);
+          // .text(d => `${formatDate(d.date)} (ACTUAL:${d.value})`);
 
 
         // model predicted outcome cell colors
@@ -302,51 +310,51 @@
           .append("title")
           .text(d => `${formatDate(d.date)} (MODEL:${d.model})`);
 
-        // // on click event
-        // var tooltip = d3.select("body")
-        //   .append("div").attr("id", "tooltip")
-        //   .style("position", "absolute")
-        //   .style("z-index", "10")
-        //   .style("visibility", "hidden")
-        //   .text("a simple tooltip");
-          
-        // d3.csv("dji.csv", function (error, csv) {
-        //   var data = d3.nest()
-        //     .key(function (d) { return d.Date; })
-        //     .rollup(function (d) { return (d[0].Close - d[0].Open) / d[0].Open; })
-        //     .map(csv);
 
-        //   rect.filter(function (d) { return d in data; })
-        //     .attr("class", function (d) { return "day " + color(data[d]); })
-        //     .select("title")
-        //     .text(function (d) { return d + ": " + percent(data[d]); });
+        
+        // tooltip and click events
+        var toolTip = d3.select("body")
+          .append("div")
+          .classed("tooltip", true);
 
-        //   //  Tooltip
-        //   rect.on("mouseover", mouseover);
-        //   rect.on("mouseout", mouseout);
-        //   function mouseover(d) {
-        //     tooltip.style("visibility", "visible");
-        //     var percent_data = (data[d] !== undefined) ? percent(data[d]) : percent(0);
-        //     var purchase_text = d + ": " + percent_data;
+        year.on("mouseover", function (d) {
+          console.log('tooltip');
 
-        //     tooltip.transition()
-        //       .duration(200)
-        //       .style("opacity", .9);
-        //     tooltip.html(purchase_text)
-        //       .style("left", (d3.event.pageX) + 30 + "px")
-        //       .style("top", (d3.event.pageY) + "px");
-        //   }
-        //   function mouseout(d) {
-        //     tooltip.transition()
+          toolTip.style("display", "block")
+            .html(
+              `${formatDate(d.date)} (MODEL:${d.model})`)
+            .style("left", d3.event.pageX + "px")
+            .style("top", d3.event.pageY + "px");
+
+        })
+
+          .on("mouseout", function () {
+            toolTip.style("display", "none");
+          })
+
+          .on('click', function () {
+            console.log('click');
+
+          })
+
+        // // Create the event listeners with transitions
+        // year.on("mouseover", function () {
+        //   d3.select(this)
+        //     .transition()
+        //     .duration(500)
+        //     .attr("fill", "red");
+        // })
+        //   .on("mouseout", function () {
+        //     d3.select(this)
+        //       .transition()
         //       .duration(500)
-        //       .style("opacity", 0);
-        //     var $tooltip = $("#tooltip");
-        //     $tooltip.empty();
-        //   }
-
-        // });
-
+        //       .attr("fill", "green");
+        //   });
  
+
+
+
+
         // const legend = group
         //   .append("g")
         //   .attr(
