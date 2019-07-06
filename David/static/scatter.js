@@ -1,7 +1,8 @@
 d3.json('Data/News_Links.json').then(newslinks=>{
     d3.json('Data/Graph_Data.json').then(d=>{
     
-        var myPlot = document.getElementById('myDiv');
+        var tsPlot = document.getElementById('myDiv');
+        var qPlot = document.getElementById('histDiv');
         var rr_hold=[];
         var rr_buy=[];
         var rr_sell=[];
@@ -70,7 +71,7 @@ d3.json('Data/News_Links.json').then(newslinks=>{
           };
         var histData = [trace_rr_sell,trace_rr_hold,trace_rr_buy];
         layout_rr = {hovermode:'closest',
-                  title:'Stock Price Returns for Buy/Sell/Hold quantiles',
+                  title:'Distribution of Daily Return',
                   colorway:['red','gray','green'],
                   xaxis: {
                     title: {
@@ -126,7 +127,7 @@ d3.json('Data/News_Links.json').then(newslinks=>{
         var data = [ trace_hold, trace_sell , trace_buy];
         
         layout = {hovermode:'closest',
-                  title:'Stock Price compared to Buy/Sell/Hold quantiles',
+                  title:'Stock Price Time Series Classified as Buy/Sell/Hold',
                   colorway:['gray','red','green'],
                   xaxis: {
                     title: {
@@ -152,9 +153,9 @@ d3.json('Data/News_Links.json').then(newslinks=>{
     
     Plotly.newPlot('myDiv', data, layout);
     
-    myPlot.on('plotly_click', function(data){
+    tsPlot.on('plotly_click', function(data){
         //alert('You clicked this Plotly chart!');
-        var div = document.getElementById('textDiv');
+        var div = document.getElementById('linksDiv');
         div.innerHTML="";
         //console.log(data[0]['fullData']['x']);
         console.log(data.points[0]);
@@ -171,8 +172,8 @@ d3.json('Data/News_Links.json').then(newslinks=>{
                 recommendation="Sell";
             }
         }
-        div.innerHTML+='<h3>'+'Date: '+data.points[0]['x']+'</h3>';
-        div.innerHTML+='<h4>'+'Recommendation: '+recommendation+'</h4>';
+        div.innerHTML+='<bold>'+'Date: '+data.points[0]['x']+' '+'Recommendation: '+recommendation+'<bold><br>';
+        div.innerHTML+='<bold>News Headlines<bold><br><hr>'
         newslinks.forEach(obj=>{
             if (obj['publishdate']==data.points[0]['x']){
                 console.log('<a href="'+obj['sourceurl']+'">'+obj['title']+'</a>'+'<br>');

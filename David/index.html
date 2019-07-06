@@ -11,11 +11,44 @@
     <div class="row">
         <div id="myDiv" class="column" style="width: 700px; height: 500px;"></div>
         <div id="histDiv" class="column" style="width: 700px; height: 500px;"></div>
-
     </div>
     
+    <div class="row">
+        <div  class="column" style="width: 700px; height: 500px;"><p id="linksDiv"></p>  </div>
+        <div class="column" style="width: 700px; height: 500px;"><p id="ExplDiv" size=10>
+          <bold>Rule for Labelling News Articles</bold>       
+          
+          <ul>
+            <li>
+                Consider the price of a share of stock S(d<sub>i</sub>) on date d<sub>i</sub>
+            </li>
+            <li>
+                Daily return r(d<sub>i</sub>) for date d<sub>i</sub> is equal to S(d<sub>i+1</sub>)/S(d<sub>i</sub>)
+            </li>
+            <li>
+                Based on a series of r(d<sub>i</sub>) values construct a lognormal model of stock price returns
+            </li>
+            <li>
+                Identify the 10th percentile and the 90th percentile of r(d<sub>i</sub>)
+            </li>
+            <li>
+                Consider a news article N(d<sub>i</sub>) published on date d<sub>i</sub>
+            </li>
+            <li>
+                if r(d<sub>i</sub>) > 90th percentile then label as "Buy"
+            </li>
+            <li>
+                if r(d<sub>i</sub>) < 10th percentile then label as "Sell"
+            </li>
+            <li>
+                if neither "Hold"
+            </li>             
+          </ul>
+          
+        </p>  </div>
+    </div>
     
-    <div style="width: 700px; height: 500px;"><p id="textDiv"></p>  </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
     <script type="text/javascript" src="static/scatter.js"></script>
   </body>
+  
