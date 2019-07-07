@@ -63,7 +63,13 @@
 
     //   })
 
-
+      // function to know which cell to SELECT during click event from the attribute created for sourceDate
+      function getDetails(){
+        console.log(d3.select(this))
+        console.log(d3.select(this).attr('sourceDate'))
+        // updateArticleDetails(YYYYMMDD)
+        // d3.select(this).attribute
+      }
 
       const sample = [
         { Date: "2019-01-01", Actual: "BUY", Model: "DO NOTHING" },
@@ -307,8 +313,26 @@
           )
           .attr("y", d => countDay(d.date) * cellSize + 9.0)
           .attr("fill", d => colorFn(d.model))
-          .append("title")
-          .text(d => `${formatDate(d.date)} (MODEL:${d.model})`);
+          .attr('sourceDate', d=> d.date)
+          .on('click', getDetails)
+          .on("mouseover", function (d) {
+            console.log('tooltip');
+            console.log(d);
+            toolTip.style("display", "block")
+              .html(
+                `${formatDate(d.date)} (MODEL:${d.model})`)
+              .style("left", d3.event.pageX + "px")
+              .style("top", d3.event.pageY + "px");
+          })
+          .on("mouseout", function () {
+            toolTip.style("display", "none");
+          });
+
+          // .append("title")
+          // .text(d => `${formatDate(d.date)} (MODEL:${d.model})`)
+          // .on('click', function () {
+          //   console.log('click');
+          // });
 
 
         
@@ -317,106 +341,6 @@
           .append("div")
           .classed("tooltip", true);
 
-        year.on("mouseover", function (d) {
-          console.log('tooltip');
-
-          toolTip.style("display", "block")
-            .html(
-              `${formatDate(d.date)} (MODEL:${d.model})`)
-            .style("left", d3.event.pageX + "px")
-            .style("top", d3.event.pageY + "px");
-
-        })
-
-          .on("mouseout", function () {
-            toolTip.style("display", "none");
-          })
-
-          .on('click', function () {
-            console.log('click');
-
-          })
-
-        // // Create the event listeners with transitions
-        // year.on("mouseover", function () {
-        //   d3.select(this)
-        //     .transition()
-        //     .duration(500)
-        //     .attr("fill", "red");
-        // })
-        //   .on("mouseout", function () {
-        //     d3.select(this)
-        //       .transition()
-        //       .duration(500)
-        //       .attr("fill", "green");
-        //   });
- 
-
-
-
-
-        // const legend = group
-        //   .append("g")
-        //   .attr(
-        //     "transform",
-        //     `translate(10, ${years.length * yearHeight + cellSize * 4})`
-        //   );
-        // const categoriesCount = 6;
-        // const categories = [...Array(categoriesCount)].map((_, i) => {
-        //   const upperBound = (maxValue / categoriesCount) * (i + 1);
-        //   const lowerBound = (maxValue / categoriesCount) * i;
-        //   return {
-        //     upperBound,
-        //     lowerBound,
-        //     color: d3.interpolateBuGn(upperBound / maxValue),
-        //     selected: true
-        //   };
-        // });
-        // const legendWidth = 60;
-        // function toggle(legend) {
-        //   const { lowerBound, upperBound, selected } = legend;
-        //   legend.selected = !selected;
-        //   const highlightedDates = years.map(y => ({
-        //     key: y.key,
-        //     values: y.values.filter(
-        //       v => v.value > lowerBound && v.value <= upperBound
-        //     )
-        //   }));
-        //   year
-        //     .data(highlightedDates)
-        //     .selectAll("rect")
-        //     .data(d => d.values, d => d.date)
-        //     .transition()
-        //     .duration(500)
-        //     .attr("fill", d => (legend.selected ? colorFn(d.value) : "white"));
-        // }
-        // legend
-        //   .selectAll("rect")
-        //   .data(categories)
-        //   .enter()
-        //   .append("rect")
-        //   .attr("fill", d => d.color)
-        //   .attr("x", (d, i) => legendWidth * i)
-        //   .attr("width", legendWidth)
-        //   .attr("height", 15)
-        //   .on("click", toggle);
-        // legend
-        //   .selectAll("text")
-        //   .data(categories)
-        //   .join("text")
-        //   .attr("transform", "rotate(90)")
-        //   .attr("y", (d, i) => -legendWidth * i)
-        //   .attr("dy", -30)
-        //   .attr("x", 18)
-        //   .attr("text-anchor", "start")
-        //   .attr("font-size", 11)
-        //   .text(d => `${d.lowerBound.toFixed(2)} - ${d.upperBound.toFixed(2)}`);
-        // legend
-        //   .append("text")
-        //   .attr("dy", -5)
-        //   .attr("font-size", 14)
-        //   .attr("text-decoration", "underline")
-        //   .text("Click on category to select/deselect days");
       }
       draw();
     </script>
