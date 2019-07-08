@@ -119,7 +119,7 @@ function getArticlesFromEndpoint(searchDate){
 
     //- Create Proxy URL
     //  Issues setting up AWS Gateway to allow remote access use proxy
-    let sourceUrl = 'https://cors-anywhere.herokuapp.com/' + ARTICLEURL + searchDate;
+    let sourceUrl = ARTICLEURL + searchDate;
 
 
     d3.json(sourceUrl).then(data => {
