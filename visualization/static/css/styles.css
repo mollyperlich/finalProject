@@ -21,3 +21,36 @@
     border-radius: 3px;
     display: none;
   }
+
+
+
+  /* "result" styles for the different results; used to change color of DIV */
+  .buyresult{
+    background: green;
+  }
+
+  .sellresult{
+    background: yellow;
+  }
+
+  .holdresult{
+    background: grey;
+  }
+
+  .unknownresult{
+    background: rgb(136, 100, 100);
+  }
+  
+
+  /* resultcontainer: used with the div with the metadata on the selected item from calendar  */
+  .resultcontainer{
+    padding-top: 20px;
+    padding-bottom: 5px;
+    border-radius:20px;
+    font: 20px sans-serif;
+  }
+
+  /* resultmetadata: Used with the div that contains the text for the metadata from selected calendar item */
+  .resultmetadata{
+    margin-left: 30px;
+  }
