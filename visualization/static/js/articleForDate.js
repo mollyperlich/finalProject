@@ -6,16 +6,19 @@ articles for a given date
 
 console.log("-> articlesForData.js");
 
+
 //-- Const
+// URL to Restful endpoint that returns articles
 const ARTICLEURL = "https://1wvzwvo96a.execute-api.us-west-2.amazonaws.com/dev?searchdate=";
 
-const ARTICLETITLESDIV = "#article-titles";
-
-const ARTICLEIMAGEDIV = "#article-image";
-
+// ID of div that contains the metadata which is to change color
 const ARTICLE_MetadataDiv ="#article-metadatadiv";
 
+// ID of the div that displays the date
 const ARTICLE_MetadataTitle = "#article-metadatatitle";
+
+// ID of the div that contains details
+const ARTICLE_DetailsDiv = "#article-detailsdiv";
 
 
 
@@ -50,13 +53,14 @@ async function updateArticleDetails(searchDate, actualResult){
     updateArticleMetadata(searchDate, actualResult);
 
 
-    //- Update 
+    //- Update Titles
+    updateArticleTitles(sourceData);
 }
 
 
 
 function updateArticleMetadata(searchDate, actualResult){
-    /*
+    /* Sets the metadata for the selected date on calendar; changes the style and updates the date.
 
     Accepts : searchDate: (int) date to populate NY Time articles for; format of YYYYMMDD
               actualResult: (string) actual result for date selected, values include:
@@ -101,87 +105,83 @@ function updateArticleMetadata(searchDate, actualResult){
         .text(moment(searchDateValue).format("dddd MMMM Do, YYYY"));
 }
 
-function populateArticles(sourceArticles, actualResult){
-    /* Using the list of articles provided, updates the UI 
 
-    Accepts : sourceArticles (array) Contains the articles for the date
+function updateArticleTitles(sourceData){
+    /* Updates the UI by adding rows and columns with the articles provided. There are to be 3 articles per row.
+
+    Accepts : sourceData (array) Contains the articles for the date
                 title: (string) title of article
                 id: (string) unique identifier of the news article; created when downloaded
                 sourceurl: (string) Url of the news article on the NY Times website
                 imageurl: (string) Url to image from the news article; could be empty
                 publishdate: (int) Date when the article was published, yyyyMMdd
-              actualResult (string) actual result for date selected, values include:
-                    "Hold", "Buy", "Sell", "Unknown"
 
     Returns : undefined
     */
 
-    console.log("-> populateArticles");
+    console.log("-> updateArticleTitles");
+
+    //- Select Div
+    let articleDetailsDiv = d3.select(ARTICLE_DetailsDiv);
 
 
-
-    //- Check for Articles
-    if (sourceArticles.length == 0){
-
-        return;
-    }
+    //- Remove Existing
+    articleDetailsDiv.selectAll("div").remove();
 
 
-
-    //- Update Metadata
-    let articleMetadataDiv = d3.select(ARTICLE_MetadataDiv);
-
+    let articleCounter = 0;
+    let rowDiv = "";
 
 
+    sourceData.forEach(articleData => {
+
+        //- Create Row
+        if (articleCounter == 0){
+            rowDiv = articleDetailsDiv.append("div")
+                           .attr("class", "row mt-3");
+       }
 
 
+       //- Create Column
+       let columnClassAttr = "";
+       let sourceHtml = "";
 
-    //- Populate Articles List
-    let articleList =  d3.select(ARTICLETITLESDIV);
+       if (articleData['imageurl'] == "NA"){
 
-    articleList.selectAll("li")
-        .data(sourceArticles)
-        .enter()
-        .append("li")
-        .html(d => {
-            //- Get Article Details
-            sourceUrl = d['sourceurl'];
-            title = d['title'];
+            //- Add Title Only
+            columnClassAttr = "col-sm-12 col-md-4";
 
-            //- Create HTML
-            sourceHtml = "";
+            sourceHtml = `<a href='${articleData['sourceurl']}' target='_blank'>` + 
+                    `${articleData['title']}` + 
+                    `</a>`; 
+       }
+       else
+       {
+            //- Add Image and Text
+            columnClassAttr = "col-sm-12 col-md-4 text-truncate";
 
-            if (sourceUrl != 'NA'){
-                sourceHtml = `<a href='${sourceUrl}' target='_blank'>${title}</a>`;
-            }
-            else{
-                sourceHtml = title;
-            }
+            sourceHtml = `<div class='text-center'><a href='${articleData['sourceurl']}' target='_blank'>` + 
+                        `<img src='${articleData['imageurl']}' class='img-fluid rounded resultimage'>` + 
+                        `</a></div>` + 
+                        `<a href='${articleData['sourceurl']}' target='_blank'>` + 
+                        `${articleData['title']}` + 
+                        `</a>`;
+       }
 
-            return sourceHtml;
-        });
-        
-    
-    //- Populate Image
-    // Get First Valid Image
-    imageUrl = "";
+       let articleColumn = rowDiv.append("div")
+                .attr("class", columnClassAttr);
 
-    for (let article of sourceArticles){
-        
-            if (article['imageurl'] != 'NA'){
-                imageUrl = article['imageurl'];
-                break;
-            }
-    }
+        articleColumn.html(sourceHtml);
 
-    console.log(`The url: ${imageUrl}`);
 
-    // Update UI
-    let imageDiv = d3.select(ARTICLEIMAGEDIV);
+       //- Check Articles in Row
+       //  Have 3 articles in each row; when 3 found then reset article counter to 0 to create new row
+       articleCounter +=1;
 
-    imageDiv.append('img')
-        .attr('class', 'img-thumbnail img-fluid')
-        .attr('src', imageUrl);
+       if (articleCounter == 3){
+           articleCounter = 0;
+       }
+    });
 }
 
 

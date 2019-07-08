@@ -54,3 +54,7 @@
   .resultmetadata{
     margin-left: 30px;
   }
+
+  .resultimage{
+    max-width: 250px;
+  }
