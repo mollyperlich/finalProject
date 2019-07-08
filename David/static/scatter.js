@@ -1,5 +1,5 @@
-d3.json('Data/News_Links.json').then(newslinks=>{
-    d3.json('Data/Graph_Data.json').then(d=>{
+d3.json('../Data/News_Links.json').then(newslinks=>{
+    d3.json('../Data/Graph_Data.json').then(d=>{
     
         var tsPlot = document.getElementById('myDiv');
         var qPlot = document.getElementById('histDiv');
