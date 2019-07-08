@@ -1,5 +1,5 @@
-d3.json('Data/News_Links.json').then(newslinks=>{
-    d3.json('Data/Graph_Data.json').then(d=>{
+d3.json('../Data/News_Links.json').then(newslinks=>{
+    d3.json('../Data/Graph_Data.json').then(d=>{
     
         var tsPlot = document.getElementById('myDiv');
         var qPlot = document.getElementById('histDiv');
@@ -69,10 +69,10 @@ d3.json('Data/News_Links.json').then(newslinks=>{
             name:'Hold Region',
             marker: { line:{width: 5,color:"gray"} ,opacity:.8}
           };
-        var histData = [trace_rr_sell,trace_rr_hold,trace_rr_buy];
+        var histData = [trace_rr_hold,trace_rr_sell,trace_rr_buy];
         layout_rr = {hovermode:'closest',
                   title:'Distribution of Daily Return',
-                  colorway:['red','gray','green'],
+                  colorway:['gray','red','green'],
                   xaxis: {
                     title: {
                       text: 'Stock Daily Return (S_t+1/S_t)',
