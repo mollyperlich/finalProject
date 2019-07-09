@@ -32,12 +32,11 @@ function getDetails(){
             // console.table(data)
         populateCalendar(data)
 
-
-
         })
 
   }
 
+// insert the data into the calendar function below.
 function populateCalendar(data) {
 
     // format int Date to a string to get YYYY-MM-DD format.
@@ -65,9 +64,12 @@ function populateCalendar(data) {
   }));
 
   const svg = d3.select("#svg");
-  const { width, height } = document
-    .getElementById("svg")
-    .getBoundingClientRect();
+//   const { width, height } = document
+    // .getElementById("svg")
+    // .getBoundingClientRect();
+
+
+
 
   function draw() {
     // this nests/group all the dates into each YEAR
