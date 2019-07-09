@@ -79,8 +79,6 @@ function populateCalendar(data) {
       .entries(dateValues)
       .reverse();
     const values = dateValues.map(c => c.value);
-    // const maxValue = d3.max(values);
-    // const minValue = d3.min(values);
     const cellSize = 25;
     const yearHeight = cellSize * 8;
     const group = svg.append("g");
@@ -126,7 +124,7 @@ function populateCalendar(data) {
       // .schemeCategory10()
       .scaleOrdinal()
       .domain(['Buy', 'Sell', 'Hold', 'Unknown'])
-      .range(["mediumseagreen", "salmon" , "silver", "white"]);
+      .range(["mediumseagreen", "salmon" , "silver", "lavender"]);
     
     const format = d3.format("+.2%");
    
@@ -160,8 +158,6 @@ function populateCalendar(data) {
       )
       .attr("y", d => countDay(d.date) * cellSize + 0.5)
       .attr("fill", d => colorFn(d.actual))
-    //   .append("title")
-      .text(d => `${formatDate(d.date)} (ACTUAL:${d.actual})`)
       .attr('actualResults', d=> d.actual)
       .attr('sourceDate', d=> d.date)
       .on('click', getDetails)
@@ -174,6 +170,8 @@ function populateCalendar(data) {
           .style("left", d3.event.pageX + "px")
           .style("top", d3.event.pageY + "px");
       })
+      .append("title")
+      .text(d => `${formatDate(d.date)} (ACTUAL:${d.actual})`)
       .on("mouseout", function () {
         toolTip.style("display", "none");
       });
@@ -193,8 +191,6 @@ function populateCalendar(data) {
       )
       .attr("y", d => countDay(d.date) * cellSize + 9.0)
       .attr("fill", d => colorFn(d.predicted))
-      .append("title")
-      .text(d => `${formatDate(d.date)} (MODEL:${d.predicted})`)
       .attr('actualResults', d=> d.actual)
       .attr('sourceDate', d=> d.date)
       .on('click', getDetails)
@@ -207,6 +203,8 @@ function populateCalendar(data) {
           .style("left", d3.event.pageX + "px")
           .style("top", d3.event.pageY + "px");
       })
+      .append("title")
+      .text(d => `${formatDate(d.date)} (MODEL:${d.predicted})`)
       .on("mouseout", function () {
         toolTip.style("display", "none");
       });
