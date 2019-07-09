@@ -10,16 +10,17 @@
 
   .tooltip {
     position: absolute;
-    width: 80px;
-    height: 30px;
+    width: 110px;
+    height: 45;
     padding: 2px;
-    font: 8px sans-serif;
+    font: 12px sans-serif;
     text-align: center;
     color: white;
-    background: gray;
+    background: rgb(62, 64, 65);
     border: 0;
-    border-radius: 3px;
+    border-radius: 5px;
     display: none;
+    pointer-events: none;
   }
 
 
@@ -66,4 +67,27 @@
     font-style: italic;
     fill: black;
     pointer-events: none;
+  }
+
+
+  /* Styles used with the calendar rectangles */
+
+  .calendarRectangleSelected{
+    opacity: 1.0;
+    stroke: rgb(66, 188, 209);
+    stroke-width: 6px;
+    pointer-events: all;
+  }
+
+  .calendarRectangleMouseOver{
+    opacity: 1.0;
+    stroke: rgb(62, 64, 65);
+    stroke-width:2px;
+    pointer-events:all;
+  }
+
+  .calendarRectangle{
+    opacity: 0.8;
+    stroke-width:0px;
+    pointer-events:all;
   }

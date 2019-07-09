@@ -1,4 +1,32 @@
+/* Contains functionality to display calendar with actual and predicted information
+*/
+
 console.log('calendarHeatMap')
+
+//- Const
+// Name of the CSS Class used for when calendar rectangle is selected
+const CALENDAR_RectSelectedClass = "calendarRectangleSelected";
+
+// Name of CSS class used with calendar rectange when mouse over
+const CALENDAR_RectMouseOverClass = "calendarRectangleMouseOver";
+
+// Name of CSS class for the calendar rectangle
+const CALENDAR_RectClass = "calendarRectangle";
+
+// Name of attribute with rectangle that contains the date
+const CALENDAR_DateTag = "sourcedate";
+
+// Name of the attribute with rectangle that contains predicted value
+const CALENDAR_PredictedTag = "predicted";
+
+// Name of the attribute with rectangle that contains the actual value
+const CALENDAR_ActualTag = "actual";
+
+
+//- Variables
+var _previousSelectedRect = null;
+
+var toolTip = null;
 
 
 
@@ -13,9 +41,22 @@ function getDetails(){
   
     console.log("--> getDetails");
 
+
+    //- Clear CSS for Previously Selected Rectangle
+    if (_previousSelectedRect != null){
+      _previousSelectedRect.attr("class", CALENDAR_RectClass);
+    }
+
+
+    //- Update CSS for Selected Rectangle
+    d3.select(this).attr("class", CALENDAR_RectSelectedClass);
+
+    _previousSelectedRect = d3.select(this)
+
+
     //- Get Select Item
-    var formattedDate = d3.select(this).attr('sourceDate')
-    var actualValue = d3.select(this).attr('actualResults')
+    var formattedDate = d3.select(this).attr(CALENDAR_DateTag)
+    var actualValue = d3.select(this).attr(CALENDAR_ActualTag)
     console.log(actualValue)
 
     //- Converts the date format to YYYYMMDD
@@ -118,12 +159,11 @@ function populateCalendar(data) {
 
 
     // the DAY cells
+    // const formatDay = d =>
+    //   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][d.getUTCDay()];
+
     const formatDay = d =>
-      ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][d.getUTCDay()];
-
-    // const formatMonth = d =>
-    //   ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()];
-
+      ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ][d.getUTCDay()];
 
     const countDay = d => d.getUTCDay();
     const timeWeek = d3.utcSunday;
@@ -139,7 +179,6 @@ function populateCalendar(data) {
     
     const format = d3.format("+.2%");
    
-
     
     // position of the Day texts (M,T,....,S)
     year
@@ -170,23 +209,13 @@ function populateCalendar(data) {
       )
       .attr("y", d => countDay(d.date) * cellSize + 0.5)
       .attr("fill", d => colorFn(d.actual))
-      .attr('actualResults', d=> d.actual)
-      .attr('sourceDate', d=> d.date)
+      .attr(CALENDAR_ActualTag, d => d.actual)
+      .attr(CALENDAR_DateTag, d=> d.date)
+      .attr(CALENDAR_PredictedTag, d=> d.predicted)
+      .attr("class", CALENDAR_RectClass)
       .on('click', getDetails)
-      .on("mouseover", function (d) {
-        console.log('tooltip');
-        console.log(d);
-        toolTip.style("display", "block")
-          .html(
-            `${formatDate(d.date)} (MODEL:${d.actual})`)
-          .style("left", d3.event.pageX + "px")
-          .style("top", d3.event.pageY + "px");
-      })
-      .append("title")
-      .text(d => `${formatDate(d.date)} (ACTUAL:${d.actual})`)
-      .on("mouseout", function () {
-        toolTip.style("display", "none");
-      });
+      .on("mouseover", calendarMouseOver)
+      .on("mouseout", calendarMouseOut);
 
 
     // model predicted outcome cell colors
@@ -203,34 +232,23 @@ function populateCalendar(data) {
       )
       .attr("y", d => countDay(d.date) * cellSize + 9.0)
       .attr("fill", d => colorFn(d.predicted))
-      .attr('actualResults', d=> d.actual)
-      .attr('sourceDate', d=> d.date)
+      .attr(CALENDAR_ActualTag, d => d.actual)
+      .attr(CALENDAR_DateTag, d=> d.date)
+      .attr(CALENDAR_PredictedTag, d=> d.predicted)
+      .attr("class", CALENDAR_RectClass)
       .on('click', getDetails)
-      .on("mouseover", function (d) {
-        console.log('tooltip');
-        console.log(d);
-        toolTip.style("display", "block")
-          .html(
-            `${formatDate(d.date)} (MODEL:${d.predicted})`)
-          .style("left", d3.event.pageX + "px")
-          .style("top", d3.event.pageY + "px");
-      })
-      .append("title")
-      .text(d => `${formatDate(d.date)} (MODEL:${d.predicted})`)
-      .on("mouseout", function () {
-        toolTip.style("display", "none");
-      });
+      .on("mouseover", calendarMouseOver)
+      .on("mouseout", calendarMouseOut);
 
 
-
-    
     // tooltip and click events
-    var toolTip = d3.select("body")
+    toolTip = d3.select("body")
       .append("div")
       .classed("tooltip", true);
 
-      //- Create Legend
-      createLegend(group)
+
+    //- Create Legend
+    createLegend(group)
 }
 
 
@@ -318,4 +336,58 @@ function createLegend(svgGroup){
       .attr("class", "resultLabelText")
       .attr("text-anchor", "middle")
       .text("Unknown");
+}
+
+
+function calendarMouseOver(){
+    /* When user moves mouse over the rectangle, updates the CSS to provide feedback and 
+    displays tooltip.
+
+    Accepts : nothing
+
+    Returns : nothing
+    */
+
+
+    //- Update CSS
+    if (d3.select(this).attr("class") != CALENDAR_RectSelectedClass){
+        d3.select(this).attr("class", CALENDAR_RectMouseOverClass);
+    }
+
+
+    //- Create HTML for Tooltip
+    let formatedDate = moment(d3.select(this).attr(CALENDAR_DateTag)).format("ddd MMM D, YYYY")
+
+    let toolTipHtml = `${formatedDate}` + 
+              `<br>Actual: ${d3.select(this).attr(CALENDAR_ActualTag)}` + 
+              `<br>Predicted: ${d3.select(this).attr(CALENDAR_PredictedTag)}`;
+
+
+    //- Display Tooltip
+    toolTip.transition()
+          .duration(200)
+          .style("opacity", 0.9)
+          .style("display", "block");
+
+    toolTip.html(toolTipHtml)
+          .style("left", d3.event.pageX + "px")
+          .style("top", d3.event.pageY + "px");
+}
+
+
+function calendarMouseOut(){
+    /* When user moves mouse out of the rectangle; updates the CSS and hides the tooltip
+
+    Accepts : nothing
+
+    Returns : nothing
+    */
+
+    //- Update CSS
+    if (d3.select(this).attr("class") != CALENDAR_RectSelectedClass){
+      d3.select(this).attr("class", CALENDAR_RectClass);
+    }
+
+    //- Hide Tooltip
+    toolTip.style("display", "none");
 }
