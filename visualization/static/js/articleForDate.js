@@ -40,6 +40,7 @@ async function updateArticleDetails(searchDate, actualResult){
         throw `Invalid search date: ${searchDate}`;
     }
 
+    console.log(`actualResult: ${actualResult}`);
     if (actualResult == ''){
         actualResult = "Unknown";
     }
@@ -118,7 +119,7 @@ function updateArticleTitles(sourceData){
 
     Returns : undefined
     */
-   
+
     console.log("-> updateArticleTitles");
 
     //- Select Div
