@@ -7,9 +7,8 @@ function getDetails(){
     console.log(d3.select(this))
     console.log(d3.select(this).attr('sourceDate'))
     var formattedDate = d3.select(this).attr('sourceDate')
-    var predictedValue = d3.select(this).attr('predictedResults')
     var actualValue = d3.select(this).attr('actualResults')
-    // console.log(formattedDate.getMonth())
+    console.log(actualValue)
 
     // converts the date format to YYYYMMDD
         var now = new Date(formattedDate);
@@ -21,12 +20,12 @@ function getDetails(){
         value =  '' + y + mm + dd;
 
     console.log(value)
-    updateArticleDetails(parseInt(value, actualValue))
-    // d3.select(this).attribute
+    updateArticleDetails(parseInt(value), actualValue)
+    // d3.select(this).attribute`
 
   }
 
-
+  // function to load data stored in AWS
   function loadCalendar(){
       console.log('getting data')
         d3.json("https://finalprojectcalendardata.s3-us-west-2.amazonaws.com/calendarData_3.json").then(data=>{
@@ -159,7 +158,7 @@ function populateCalendar(data) {
       )
       .attr("y", d => countDay(d.date) * cellSize + 0.5)
       .attr("fill", d => colorFn(d.actual))
-      .append("title")
+    //   .append("title")
       .text(d => `${formatDate(d.date)} (ACTUAL:${d.actual})`)
       .attr('actualResults', d=> d.actual)
       .attr('sourceDate', d=> d.date)
@@ -194,7 +193,7 @@ function populateCalendar(data) {
       .attr("fill", d => colorFn(d.predicted))
       .append("title")
       .text(d => `${formatDate(d.date)} (MODEL:${d.predicted})`)
-      .attr('predictedResults', d=> d.predicted)
+      .attr('actualResults', d=> d.actual)
       .attr('sourceDate', d=> d.date)
       .on('click', getDetails)
       .on("mouseover", function (d) {
