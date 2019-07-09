@@ -26,19 +26,19 @@
 
   /* "result" styles for the different results; used to change color of DIV */
   .buyresult{
-    background: green;
+    background: mediumseagreen;
   }
 
   .sellresult{
-    background: yellow;
+    background: salmon;
   }
 
   .holdresult{
-    background: grey;
+    background: silver;
   }
 
   .unknownresult{
-    background: rgb(136, 100, 100);
+    background: white;
   }
   
 
