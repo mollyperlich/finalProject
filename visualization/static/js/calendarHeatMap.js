@@ -28,8 +28,8 @@ function getDetails(){
   // function to load data stored in AWS
   function loadCalendar(){
       console.log('getting data')
-        d3.json("https://finalprojectcalendardata.s3-us-west-2.amazonaws.com/calendarData_3.json").then(data=>{
-            // console.table(data)
+        d3.json("https://finalprojectcalendardata.s3-us-west-2.amazonaws.com/calendarData_5.json").then(data=>{
+            console.table(data)
         populateCalendar(data)
 
         })
@@ -91,7 +91,11 @@ function populateCalendar(data) {
         "transform",
         (d, i) => `translate(50, ${yearHeight * i + cellSize * 1.5})`
       );
-
+      const legend = group
+          .append("g")
+          .attr(
+              "transform",
+              `translate(10,10})`);
     
     // positioning the YEAR text on the page
     year
@@ -128,6 +132,50 @@ function populateCalendar(data) {
     
     const format = d3.format("+.2%");
    
+    // legend
+    legend
+    .append("rect")
+    .attr("width", 100)
+    .attr("height", 25)
+    .attr("x", 400)
+    .attr("y", 5)
+    .attr("fill", 'mediumseagreen')
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .text('Buy')
+    legend
+    .append("rect")
+    .attr("width", 100)
+    .attr("height", 25)
+    .attr("x", 500)
+    .attr("y", 5)
+    .attr("fill", 'salmon')
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .text('Sell')
+    legend
+    .append("rect")
+    .attr("width", 100)
+    .attr("height", 25)
+    .attr("x", 600)
+    .attr("y", 5)
+    .attr("fill", 'silver')
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .text('Hold')
+    legend
+    .append("rect")
+    .attr("width", 100)
+    .attr("height", 25)
+    .attr("x", 700)
+    .attr("y", 5)
+    .attr("fill", 'lavender')
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .text('Unknown')
+
+
+    
 
     // position of the Day texts (M,T,....,S)
     year
