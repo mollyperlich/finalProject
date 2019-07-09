@@ -4,8 +4,8 @@
     height: 97%;
   }
   svg {
-    height: 600;
-    width: 800px;
+    height: 610;
+    width: 100%;
   }
 
   .tooltip {
@@ -38,7 +38,7 @@
   }
 
   .unknownresult{
-    background: white;
+    background: lavender;
   }
   
 
