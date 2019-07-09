@@ -3,75 +3,86 @@ console.log('calendarHeatMap')
 
 
 function getDetails(){
+    /*  Handles the click event of rectangle within the calendar; gets the selected item 
+        and then updates the details.
 
-    console.log(d3.select(this))
-    console.log(d3.select(this).attr('sourceDate'))
+    Accepts : nothing
+
+    Returns : undefined
+    */
+  
+    console.log("--> getDetails");
+
+    //- Get Select Item
     var formattedDate = d3.select(this).attr('sourceDate')
     var actualValue = d3.select(this).attr('actualResults')
     console.log(actualValue)
 
-    // converts the date format to YYYYMMDD
-        var now = new Date(formattedDate);
-        var y = now.getFullYear();
-        var m = now.getMonth() + 1;
-        var d = now.getDate();
-        var mm = m < 10 ? '0' + m : m;
-        var dd = d < 10 ? '0' + d : d;
-        value =  '' + y + mm + dd;
+    //- Converts the date format to YYYYMMDD
+    var now = new Date(formattedDate);
+    var y = now.getFullYear();
+    var m = now.getMonth() + 1;
+    var d = now.getDate();
+    var mm = m < 10 ? '0' + m : m;
+    var dd = d < 10 ? '0' + d : d;
+    value =  '' + y + mm + dd;
 
-    console.log(value)
+
+    //- Update UI
     updateArticleDetails(parseInt(value), actualValue)
-    // d3.select(this).attribute`
+}
 
-  }
 
-  // function to load data stored in AWS
-  function loadCalendar(){
-      console.log('getting data')
-        d3.json("https://finalprojectcalendardata.s3-us-west-2.amazonaws.com/calendarData_5.json").then(data=>{
-            console.table(data)
-        populateCalendar(data)
+function loadCalendar(){
+    /* Prepares the page by loading the calendar; pulls from AWS S3 and then updates the UI
 
-        })
+    Accepts : nothing
 
-  }
+    Returns : undefined
+    */
 
-// insert the data into the calendar function below.
+    console.log("-> loadCalendar");
+
+    d3.json("https://finalprojectcalendardata.s3-us-west-2.amazonaws.com/calendarData_5.json").then(data=>{
+      populateCalendar(data);
+    });
+}
+
+
 function populateCalendar(data) {
+  /* Populates the D3 calendar based on the data provided
 
+  Accepts : data: (array) contains list of dictionary, one item for each day
+              "date" (int) date of the record; in YYYYMMDD format
+              "predicted" (string) what the model recommended; "Unknown", "Hold", "Sell"
+              "actual" (string) what the actual stock did; "Unknown", "Hold", "Sell"
+  */
+
+    console.log("--> populateCalendar");
+
+    //- Format Date Required for Calendar
     // format int Date to a string to get YYYY-MM-DD format.
     data.forEach((item, index) => {
         var dateValue = item['date'].toString();
         var formatD = [dateValue.slice(0, 4), "-", dateValue.slice(4, 6), "-", dateValue.slice(6, 8)].join('');
-        // item.push({'dateRect': b})
 
         item['dateRect'] = formatD
-        });
-        // console.table(data)
-//   const sample = [
-//     { Date: "2019-01-01", Actual: "BUY", Model: "DO NOTHING" },
-//     { Date: "2019-01-02", Actual: "BUY", Model: "SELL" },
-//     { Date: "2019-01-03", Actual: "SELL", Model: "BUY" },
-//     { Date: "2019-01-04", Actual: "SELL", Model: "SELL" }
-//   ];
-  
-  data.sort((a, b) => new Date(a.dateRect) - new Date(b.dateRect));
+    });
 
-  const dateValues = data.map(dv => ({
-    date: d3.timeDay(new Date(dv.dateRect)),
-    actual: dv.actual,
-    predicted: dv.predicted
-  }));
 
-  const svg = d3.select("#svg");
-//   const { width, height } = document
-    // .getElementById("svg")
-    // .getBoundingClientRect();
+    //- Create Array for Charts
+    const dateValues = data.map(dv => ({
+      date: d3.timeDay(new Date(dv.dateRect)),
+      actual: dv.actual,
+      predicted: dv.predicted
+    }));
+
+
+    //- Create SVG
+    const svg = d3.select("#svg");
 
 
 
-
-  function draw() {
     // this nests/group all the dates into each YEAR
     const years = d3
       .nest()
@@ -91,11 +102,7 @@ function populateCalendar(data) {
         "transform",
         (d, i) => `translate(50, ${yearHeight * i + cellSize * 1.5})`
       );
-      const legend = group
-          .append("g")
-          .attr(
-              "transform",
-              `translate(10,10})`);
+
     
     // positioning the YEAR text on the page
     year
@@ -132,51 +139,8 @@ function populateCalendar(data) {
     
     const format = d3.format("+.2%");
    
-    // legend
-    legend
-    .append("rect")
-    .attr("width", 100)
-    .attr("height", 25)
-    .attr("x", 400)
-    .attr("y", 5)
-    .attr("fill", 'mediumseagreen')
-    .append('text')
-    .attr('text-anchor', 'middle')
-    .text('Buy')
-    legend
-    .append("rect")
-    .attr("width", 100)
-    .attr("height", 25)
-    .attr("x", 500)
-    .attr("y", 5)
-    .attr("fill", 'salmon')
-    .append('text')
-    .attr('text-anchor', 'middle')
-    .text('Sell')
-    legend
-    .append("rect")
-    .attr("width", 100)
-    .attr("height", 25)
-    .attr("x", 600)
-    .attr("y", 5)
-    .attr("fill", 'silver')
-    .append('text')
-    .attr('text-anchor', 'middle')
-    .text('Hold')
-    legend
-    .append("rect")
-    .attr("width", 100)
-    .attr("height", 25)
-    .attr("x", 700)
-    .attr("y", 5)
-    .attr("fill", 'lavender')
-    .append('text')
-    .attr('text-anchor', 'middle')
-    .text('Unknown')
-
 
     
-
     // position of the Day texts (M,T,....,S)
     year
       .append("g")
@@ -265,7 +229,93 @@ function populateCalendar(data) {
       .append("div")
       .classed("tooltip", true);
 
-  }
-  draw();
+      //- Create Legend
+      createLegend(group)
+}
 
+
+function createLegend(svgGroup){
+    /* Creates legend; boxes with the color and label
+
+    Accepts : svgGroup (D3 G element) element to add the legend components
+    
+    Returns : nothing
+    */
+
+    console.log("-> createLegend");
+
+
+    let legend = svgGroup
+          .append("g")
+          .attr(
+              "transform",
+              `translate(10,10})`);
+
+
+    //- Buy
+    legend
+      .append("rect")
+      .attr("width", 100)
+      .attr("height", 25)
+      .attr("x", 400)
+      .attr("y", 5)
+      .attr("fill", 'mediumseagreen');
+
+    legend.append("text")
+          .attr("x", 450)
+          .attr("y", 22)
+          .attr("class", "resultLabelText")
+          .attr("text-anchor", "middle")
+          .text("Buy");
+        
+
+    //- Sell
+    legend
+      .append("rect")
+      .attr("width", 100)
+      .attr("height", 25)
+      .attr("x", 500)
+      .attr("y", 5)
+      .attr("fill", 'salmon');
+
+    legend.append("text")
+      .attr("x", 550)
+      .attr("y", 22)
+      .attr("class", "resultLabelText")
+      .attr("text-anchor", "middle")
+      .text("Sell");
+
+
+    //- Hold
+    legend
+      .append("rect")
+      .attr("width", 100)
+      .attr("height", 25)
+      .attr("x", 600)
+      .attr("y", 5)
+      .attr("fill", 'silver');
+    
+    legend.append("text")
+      .attr("x", 650)
+      .attr("y", 22)
+      .attr("class", "resultLabelText")
+      .attr("text-anchor", "middle")
+      .text("Hold");
+
+
+    //- Unknown
+    legend
+      .append("rect")
+      .attr("width", 100)
+      .attr("height", 25)
+      .attr("x", 700)
+      .attr("y", 5)
+      .attr("fill", 'lavender');
+
+    legend.append("text")
+      .attr("x", 750)
+      .attr("y", 22)
+      .attr("class", "resultLabelText")
+      .attr("text-anchor", "middle")
+      .text("Unknown");
 }

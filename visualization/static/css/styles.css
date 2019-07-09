@@ -58,3 +58,12 @@
   .resultimage{
     max-width: 250px;
   }
+
+  /* resultLabelText: used with the text for the legend of results  */
+  .resultLabelText{
+    font-family: sans-serif;
+    font-size: 13px;
+    font-style: italic;
+    fill: black;
+    pointer-events: none;
+  }
