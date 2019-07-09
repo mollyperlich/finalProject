@@ -7,6 +7,8 @@ function getDetails(){
     console.log(d3.select(this))
     console.log(d3.select(this).attr('sourceDate'))
     var formattedDate = d3.select(this).attr('sourceDate')
+    var predictedValue = d3.select(this).attr('predictedResults')
+    var actualValue = d3.select(this).attr('actualResults')
     // console.log(formattedDate.getMonth())
 
     // converts the date format to YYYYMMDD
@@ -19,141 +21,48 @@ function getDetails(){
         value =  '' + y + mm + dd;
 
     console.log(value)
-    updateArticleDetails(parseInt(value))
+    updateArticleDetails(parseInt(value, actualValue))
     // d3.select(this).attribute
 
   }
 
-  function loadCalendar() {
 
-  const sample = [
-    { Date: "2019-01-01", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-01-02", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-01-03", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-01-04", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-05", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-06", Actual: "SELL", Model: "DO NOTHING" },
-    { Date: "2019-01-07", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-01-08", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-01-09", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-10", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-01-11", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-01-12", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-13", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-01-14", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-01-15", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-01-16", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-01-17", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-18", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-01-19", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-01-20", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-21", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-01-22", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-01-23", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-01-24", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-01-25", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-01-26", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-27", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-28", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-01-29", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-01-30", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-01-31", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-01", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-02-02", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-02-03", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-02-04", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-05", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-06", Actual: "SELL", Model: "DO NOTHING" },
-    { Date: "2019-02-07", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-02-08", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-02-09", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-10", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-02-11", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-02-12", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-13", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-02-14", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-02-15", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-02-16", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-02-17", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-18", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-02-19", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-02-20", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-21", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-02-22", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-02-23", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-02-24", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-02-25", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-02-26", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-02-27", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-01", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-03-02", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-03-03", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-03-04", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-05", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-06", Actual: "SELL", Model: "DO NOTHING" },
-    { Date: "2019-03-07", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-03-08", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-03-09", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-10", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-03-11", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-03-12", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-13", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-03-14", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-03-15", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-03-16", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-03-17", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-18", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-03-19", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-03-20", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-21", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-03-22", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-03-23", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-03-24", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-03-25", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-03-26", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-27", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-28", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-03-29", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-03-30", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-03-31", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-01", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-04-02", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-04-03", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-04-04", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-05", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-06", Actual: "SELL", Model: "DO NOTHING" },
-    { Date: "2019-04-07", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-04-08", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-04-09", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-10", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-04-11", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-04-12", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-13", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-04-14", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-04-15", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-04-16", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-04-17", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-18", Actual: "BUY", Model: "BUY" },
-    { Date: "2019-04-19", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-04-20", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-21", Actual: "DO NOTHING", Model: "SELL" },
-    { Date: "2019-04-22", Actual: "DO NOTHING", Model: "BUY" },
-    { Date: "2019-04-23", Actual: "BUY", Model: "DO NOTHING" },
-    { Date: "2019-04-24", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-04-25", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-04-26", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-27", Actual: "SELL", Model: "SELL" },
-    { Date: "2019-04-28", Actual: "BUY", Model: "SELL" },
-    { Date: "2019-04-29", Actual: "SELL", Model: "BUY" },
-    { Date: "2019-04-30", Actual: "SELL", Model: "SELL" }
-  ];
+  function loadCalendar(){
+      console.log('getting data')
+        d3.json("https://finalprojectcalendardata.s3-us-west-2.amazonaws.com/calendarData_3.json").then(data=>{
+            // console.table(data)
+        populateCalendar(data)
+
+
+
+        })
+
+  }
+
+function populateCalendar(data) {
+
+    // format int Date to a string to get YYYY-MM-DD format.
+    data.forEach((item, index) => {
+        var dateValue = item['date'].toString();
+        var formatD = [dateValue.slice(0, 4), "-", dateValue.slice(4, 6), "-", dateValue.slice(6, 8)].join('');
+        // item.push({'dateRect': b})
+
+        item['dateRect'] = formatD
+        });
+        // console.table(data)
+//   const sample = [
+//     { Date: "2019-01-01", Actual: "BUY", Model: "DO NOTHING" },
+//     { Date: "2019-01-02", Actual: "BUY", Model: "SELL" },
+//     { Date: "2019-01-03", Actual: "SELL", Model: "BUY" },
+//     { Date: "2019-01-04", Actual: "SELL", Model: "SELL" }
+//   ];
   
-  sample.sort((a, b) => new Date(a.Date) - new Date(b.Date));
+  data.sort((a, b) => new Date(a.dateRect) - new Date(b.dateRect));
 
-  const dateValues = sample.map(dv => ({
-    date: d3.timeDay(new Date(dv.Date)),
-    value: dv.Actual,
-    model: dv.Model
+  const dateValues = data.map(dv => ({
+    date: d3.timeDay(new Date(dv.dateRect)),
+    actual: dv.actual,
+    predicted: dv.predicted
   }));
 
   const svg = d3.select("#svg");
@@ -169,8 +78,8 @@ function getDetails(){
       .entries(dateValues)
       .reverse();
     const values = dateValues.map(c => c.value);
-    const maxValue = d3.max(values);
-    const minValue = d3.min(values);
+    // const maxValue = d3.max(values);
+    // const minValue = d3.min(values);
     const cellSize = 25;
     const yearHeight = cellSize * 8;
     const group = svg.append("g");
@@ -202,8 +111,8 @@ function getDetails(){
     const formatDay = d =>
       ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][d.getUTCDay()];
 
-    const formatMonth = d =>
-      ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()];
+    // const formatMonth = d =>
+    //   ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()];
 
 
     const countDay = d => d.getUTCDay();
@@ -215,8 +124,8 @@ function getDetails(){
       // change this to use the scale ordinal for three colors
       // .schemeCategory10()
       .scaleOrdinal()
-      .domain(['BUY', 'SELL', 'DO NOTHING'])
-      .range(["mediumseagreen", "salmon" , "silver"]);
+      .domain(['Buy', 'Sell', 'Hold', 'Unknown'])
+      .range(["mediumseagreen", "salmon" , "silver", "white"]);
     
     const format = d3.format("+.2%");
    
@@ -249,9 +158,24 @@ function getDetails(){
         (d, i) => timeWeek.count(d3.utcYear(d.date), d.date) * cellSize + 10
       )
       .attr("y", d => countDay(d.date) * cellSize + 0.5)
-      .attr("fill", d => colorFn(d.value))
+      .attr("fill", d => colorFn(d.actual))
       .append("title")
-      // .text(d => `${formatDate(d.date)} (ACTUAL:${d.value})`);
+      .text(d => `${formatDate(d.date)} (ACTUAL:${d.actual})`)
+      .attr('actualResults', d=> d.actual)
+      .attr('sourceDate', d=> d.date)
+      .on('click', getDetails)
+      .on("mouseover", function (d) {
+        console.log('tooltip');
+        console.log(d);
+        toolTip.style("display", "block")
+          .html(
+            `${formatDate(d.date)} (MODEL:${d.actual})`)
+          .style("left", d3.event.pageX + "px")
+          .style("top", d3.event.pageY + "px");
+      })
+      .on("mouseout", function () {
+        toolTip.style("display", "none");
+      });
 
 
     // model predicted outcome cell colors
@@ -267,7 +191,10 @@ function getDetails(){
         (d, i) => timeWeek.count(d3.utcYear(d.date), d.date) * cellSize + 10
       )
       .attr("y", d => countDay(d.date) * cellSize + 9.0)
-      .attr("fill", d => colorFn(d.model))
+      .attr("fill", d => colorFn(d.predicted))
+      .append("title")
+      .text(d => `${formatDate(d.date)} (MODEL:${d.predicted})`)
+      .attr('predictedResults', d=> d.predicted)
       .attr('sourceDate', d=> d.date)
       .on('click', getDetails)
       .on("mouseover", function (d) {
@@ -275,7 +202,7 @@ function getDetails(){
         console.log(d);
         toolTip.style("display", "block")
           .html(
-            `${formatDate(d.date)} (MODEL:${d.model})`)
+            `${formatDate(d.date)} (MODEL:${d.predicted})`)
           .style("left", d3.event.pageX + "px")
           .style("top", d3.event.pageY + "px");
       })
@@ -283,11 +210,6 @@ function getDetails(){
         toolTip.style("display", "none");
       });
 
-      // .append("title")
-      // .text(d => `${formatDate(d.date)} (MODEL:${d.model})`)
-      // .on('click', function () {
-      //   console.log('click');
-      // });
 
 
     
