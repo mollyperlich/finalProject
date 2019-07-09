@@ -118,7 +118,7 @@ function updateArticleTitles(sourceData){
 
     Returns : undefined
     */
-
+   
     console.log("-> updateArticleTitles");
 
     //- Select Div
