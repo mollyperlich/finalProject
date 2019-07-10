@@ -1,0 +1,317 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Investing with Machine Learning: Best Model</title>
+
+    <!-- CSS: Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- CSS: Custom for Site -->
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    
+
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+
+        <!-- Landing Page Link -->
+        <a class="navbar-brand" href="index.html">
+            Investing with Machine Learning
+        </a>
+
+
+        <!-- Hamburger Menu -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+            data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" 
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <!-- Links for Nav Bar -->
+        <div id="navbarNavDropdown" class="navbar-collapse collapse">
+            
+            <!--Ensure for buttons to be left justified-->
+            <ul class="navbar-nav mr-auto">
+            </ul>
+
+            <ul class="navbar-nav">
+            
+                <!-- Drop down list of skills -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Details
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="newslabels.html">News Label</a>
+                        <a class="dropdown-item" href="buildingmodel.html">Building the Model</a>
+                        <a class="dropdown-item" href="bestmodel.html">Best Model</a>
+                        <a class="dropdown-item" href="results.html">Results</a>
+                        <a class="dropdown-item" href="lessonslearned.html">Lesson Learned</a>
+                    </div>
+                </li>
+
+                <!-- Social Links -->
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="https://github.com/mollyperlich/finalProject">GitHub</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container mt-3">
+
+        <h3>Which model gives best results?</h3>
+        
+        <div class="row mt-3">
+            <div class="col-sm-12 col-md-6">
+                    <h5>Confusion Matrix</h5>
+            </div>
+        </div>
+       
+        <div class="row mt-2">
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-bordered table-sm resulttable">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="text-center" colspan="3">Predicted class</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Actual Class</td>
+                        <td></td>
+                        <td class="table-info">Class=Yes</td>
+                        <td class="table-info">Class=No</td>
+                    </tr>
+                    <tr>
+                        <td class="table-info">Class=Yes</td>
+                        <td class="table-success">True Positive</td>
+                        <td class="table-danger">False Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="table-info">Class=No</td>
+                        <td class="table-danger">False Positive</td>
+                        <td class="table-success">True Negative</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-bordered table-sm resulttable">
+                    <tr>
+                        <td>Accuracy</td>
+                        <td>Correctly Predicted / Total</td>
+                    </tr>
+                    <tr>
+                        <td>Recall</td>
+                        <td>TP/TP+FN</td>
+                    </tr>
+                    <tr>
+                        <td>Precision</td>
+                        <td>TP/TP+FP</td>
+                    </tr>
+                    <tr>
+                        <td>F1 Score</td>
+                        <td>2*Recall*Precision/Recall+Precision</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <ul>
+                    <li>It is difficult to compare two models with low precision and high recall or vice versa. </li>
+                    <li>F-score helps to measure Recall and Precision at the same time. </li>
+                    <li>For our investigation <b><mark>RANDOM FOREST</mark></b> has the highest average F1-score for Buy Hold Sell</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>Random Forest</h5>
+                Accuracy: <a class="font-weight-bold">0.61</a>
+
+                <div class="mt-2">
+                    <table class="table table-sm">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>Precision</td>
+                            <td>Recall</td>
+                            <td>F1-Score</td>
+                            <td>Support</td>
+                        </tr>
+                        <tr>
+                            <td>Buy</td>
+                            <td>0.77</td>
+                            <td>0.56</td>
+                            <td>0.65</td>
+                            <td>152</td>
+                        </tr>
+                        <tr>
+                            <td>Hold</td>
+                            <td>0.49</td>
+                            <td>0.69</td>
+                            <td>0.57</td>
+                            <td>131</td>
+                        </tr>
+                        <tr>
+                            <td>Sell</td>
+                            <td>0.66</td>
+                            <td>0.59</td>
+                            <td>0.62</td>
+                            <td>137</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+
+            <div class="col-12">
+                <h5>Logistic Regression</h5>
+                Accuracy: <a class="font-weight-bold">0.59</a>
+
+                <div class="mt-2">
+                    <table class="table table-sm">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>Precision</td>
+                            <td>Recall</td>
+                            <td>F1-Score</td>
+                            <td>Support</td>
+                        </tr>
+                        <tr>
+                            <td>Buy</td>
+                            <td>0.69</td>
+                            <td>0.62</td>
+                            <td>0.66</td>
+                            <td>152</td>
+                        </tr>
+                        <tr>
+                            <td>Hold</td>
+                            <td>0.52</td>
+                            <td>0.49</td>
+                            <td>0.50</td>
+                            <td>131</td>
+                        </tr>
+                        <tr>
+                            <td>Sell</td>
+                            <td>0.56</td>
+                            <td>0.65</td>
+                            <td>0.60</td>
+                            <td>137</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+
+            <div class="col-12">
+                <h5>Support Vector Machines</h5>
+                Accuracy: <a class="font-weight-bold">0.58</a>
+
+                <div class="mt-2">
+                    <table class="table table-sm">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>Precision</td>
+                            <td>Recall</td>
+                            <td>F1-Score</td>
+                            <td>Support</td>
+                        </tr>
+                        <tr>
+                            <td>Buy</td>
+                            <td>0.64</td>
+                            <td>0.60</td>
+                            <td>0.62</td>
+                            <td>152</td>
+                        </tr>
+                        <tr>
+                            <td>Hold</td>
+                            <td>0.50</td>
+                            <td>0.57</td>
+                            <td>0.53</td>
+                            <td>131</td>
+                        </tr>
+                        <tr>
+                            <td>Sell</td>
+                            <td>0.62</td>
+                            <td>0.58</td>
+                            <td>0.60</td>
+                            <td>137</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4 mb-2">
+
+            <div class="col-12">
+                <h5>Naive Bayes Classification</h5>
+                Accuracy: <a class="font-weight-bold">0.55</a>
+
+                <div class="mt-2">
+                    <table class="table table-sm">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>Precision</td>
+                            <td>Recall</td>
+                            <td>F1-Score</td>
+                            <td>Support</td>
+                        </tr>
+                        <tr>
+                            <td>Buy</td>
+                            <td>0.65</td>
+                            <td>0.46</td>
+                            <td>0.54</td>
+                            <td>152</td>
+                        </tr>
+                        <tr>
+                            <td>Hold</td>
+                            <td>0.47</td>
+                            <td>0.54</td>
+                            <td>0.50</td>
+                            <td>131</td>
+                        </tr>
+                        <tr>
+                            <td>Sell</td>
+                            <td>0.56</td>
+                            <td>0.66</td>
+                            <td>0.61</td>
+                            <td>137</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+       
+
+    </div>
+
+
+
+    <!-- JS: Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- JS: D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</body>
+</html>
