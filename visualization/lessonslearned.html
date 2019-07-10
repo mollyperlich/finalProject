@@ -3,13 +3,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Investing with Machine Learning: Lesson Learned</title>
+    <title>Investing with Machine Learning: Lessons Learned</title>
 
     <!-- CSS: Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- CSS: Custom for Site -->
     <link rel="stylesheet" href="static/css/styles.css">
+    
 </head>
 <body>
     
@@ -64,32 +65,37 @@
     </nav>
 
 
-
     <div class="container">
 
-        <!-- Introduction -->
-        <div class="row mt-5">
+        <!-- Lessons Learned -->
+    <div class="row mt-4">
             <div class="col-12">
-                    <h2>Introduction Information here</h2>
-                    <p>
-                        belly lumbersexual pinterest, street art aesthetic chambray irony single-origin coffee microdosing master cleanse vaporware tofu. Semiotics iPhone woke pour-over. Lo-fi kombucha letterpress freegan aesthetic roof party sustainable umami mumblecore.
-                    </p>
-            </div>
-        </div>
-
-        <!-- Model -->
-        <div class="row mt-5">
-            <div class="col-md-8 col-sm-12">
-                <h2>Information on Model</h2>
+                <h2>Lessons Learned</h2>
                 <p>
-                        Readymade trust fund irony, gastropub yuccie fam fashion axe crucifix godard before they sold out blog blue bottle banh mi. Gentrify mlkshk edison bulb kogi hammock chambray twee lyft poutine. Twee prism tofu art party.
+                  <ul>
+                    <li>Price return over any period of time follows a lognormal distribution</li>
+                    <li>Prices of different stocks are correlated to varying degrees, necessitating the use of simulation</li>
+                    <li>It is important to have a well defined threshold of significant increase or decrease in stock prices</li>
+                    <li>It is esstentila to limit news sources to those relevant to the financial market</li>
+                    <li>Clearning the data sets is essential to improving the precision of the model</li>
+                  </ul>
                 </p>
             </div>
-
-            <div class="col-sm-12 col-md-4">
-                Image here
+          </div>
+      ​
+          <!-- Alt Actions -->
+          <div class="row">
+            <div class="col-12">
+                <h2>Possible Alternative Actions</h2>
+                <p>
+                  <ul>
+                    <li>Larger data sets should be considered for an optimal model</li>
+                    <li>Including more news sources than the New York Times</li>
+                  </ul>
+                </p>
             </div>
-        </div>
+          </div>
+       
     </div>
 
 
@@ -101,5 +107,6 @@
 
     <!-- JS: D3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
+
 </body>
 </html>
