@@ -49,6 +49,7 @@
                         <a class="dropdown-item" href="newslabels.html">News Label</a>
                         <a class="dropdown-item" href="buildingmodel.html">Building the Model</a>
                         <a class="dropdown-item" href="results.html">Results</a>
+                        <a class="dropdown-item" href="lessonslearned.html">Lesson Learned</a>
                     </div>
                 </li>
 
@@ -65,27 +66,109 @@
 
     <div class="container">
 
-        <!-- Introduction -->
-        <div class="row mt-5">
-            <div class="col-12">
-                    <h2>Introduction Information here</h2>
-                    <p>
-                        belly lumbersexual pinterest, street art aesthetic chambray irony single-origin coffee microdosing master cleanse vaporware tofu. Semiotics iPhone woke pour-over. Lo-fi kombucha letterpress freegan aesthetic roof party sustainable umami mumblecore.
+        <div class="row mt-3">
+
+            <div class="col-sm-12 col-md-3 text-center">
+                <a href="https://developer.nytimes.com/" target="_blank"><img src="static/images/NYTimesLogo.png" class="img-fluid logoimage"></a>
+            </div>
+
+            <div class="col-sm-12 col-md-9">
+                <div class="mt-1">
+                <p>
+                    The goal of the project is to use Natural Language Processing (NLP) to predict the health of a stock 
+                    based on news stories from the New York Times to determine if one should buy, sell or hold.
                     </p>
+                <p>
+                    This website contains an overview of how the data was collected, the process to determine whether to buy/sell/hold the 
+                    stocks and which model was found to perform the best. The <a href="https://github.com/mollyperlich/finalProject" target="_blank">GitHub repo</a>
+                    contains source code used in the project.
+                </p>
+                </div>
             </div>
         </div>
 
-        <!-- Model -->
+
         <div class="row mt-5">
-            <div class="col-md-8 col-sm-12">
-                <h2>Information on Model</h2>
+            <div class="col-12">
+                <h3>Workflow</h3>
+                The project had the following workflow.
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-sm-12 col-md-6">
+                    <h5>1 Data Collection: Articles</h5>
+                    <p>
+                            Using <a href="https://github.com/mollyperlich/finalProject/blob/master/Scott/DataCollection_NYTimes.ipynb" target="_blank">Jupyter Notebook</a>, 
+                            collected 10 of the top news articles from the <a href="https://developer.nytimes.com/" target="_blank">New York Times</a> restful endpoints for the study period of July 1, 2017 until June 30, 2019.
+                            Used beautifulsoap, part of the bs4 library, to get the article text from the NY Times website. 
+                    </p>
+                    <p>
+                            Resulting data was saved as JSON for use in analysis
+                            and published to AWS DynamoDB for use with website visualizations.
+                    </p>
+            </div>
+            <div class="col-sm-12 col-md-6 text-center">
+                <img src="static/images/workflow_1.png" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-sm-12 col-md-6">
+                <h5>2 Data Collection: Stocks</h5>
                 <p>
-                        Readymade trust fund irony, gastropub yuccie fam fashion axe crucifix godard before they sold out blog blue bottle banh mi. Gentrify mlkshk edison bulb kogi hammock chambray twee lyft poutine. Twee prism tofu art party.
+                        Using <a href="https://github.com/mollyperlich/finalProject/blob/master/Joey/API_get_stock_data.ipynb" target="_blank">Jupyter Notebook</a>,
+                        collected stock prices for the study period from the AlphaVantage restful endpoint for multiple technology companies.
                 </p>
             </div>
+            <div class="col-sm-12 col-md-6 text-center">
+                    <img src="static/images/workflow_2.png" class="img-fluid">
+                </div>
+        </div>
 
-            <div class="col-sm-12 col-md-4">
-                Image here
+        <div class="row mt-4">
+            <div class="col-sm-12 col-md-6">
+                <h5>3 Create Labels</h5>
+                <p>
+                    Using historical stock price information, determine the <a href ="newslabels.html">labels</a> , "Buy", "Sell" or "Hold" for the study period.
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-6 text-center">
+                <img src="static/images/workflow_3.png" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class= "col-sm-12 col-md-6">
+                <h5>4 Model</h5>
+                <p>
+                    Using <a href="https://github.com/mollyperlich/finalProject/blob/master/Joey/joey_stock_classification-stratified.ipynb" target="_blank">Jupyter Notebook</a>, 
+                    the NY Times are pre-processed split for training and testing and then different classification models are run to determine the one with the best results.
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-6 text-center">
+                <img src="static/images/workflow_4.png" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="row mt-4 mb-4">
+            <div class= "col-sm-12 col-md-12">
+                <h5>5 Visualization</h5>
+                <p>
+                    The <a href="results.html">visualization</a> of actual and predicted decisions to buy/sell/hold the stock is done within a calendar control. It allows the user to 
+                    select a date and get the NY Time articles that were used in the analysis. 
+                </p>
+                
+                <div class="text-center mt-1 mb-3">
+                    <img src="static/images/workflow_5.png" class="img-fluid">
+                </div>
+                <p>
+                        The data that powers the calendar control are stored as JSON files within an 
+                        <a href="https://aws.amazon.com/dynamodb/" target="_blank">AWS DynamoDB</a>. The HTML page calls an 
+                        <a href="https://aws.amazon.com/lambda/" target="_blank">AWS Lambda</a> function providing 
+                        the search date, the Python code then queries the DynamoDB to get the articles for that date. The list of articles is then returned to the 
+                        page where d3 is used to display the articles and pictures.
+                    </p>
             </div>
         </div>
     </div>

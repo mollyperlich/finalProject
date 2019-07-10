@@ -101,18 +101,6 @@ function populateCalendar(data) {
 
     console.log("--> populateCalendar");
 
-    //- Format Date Required for Calendar
-    // format int Date to a string to get YYYY-MM-DD format.
-    data.forEach((item, index) => {
-        // var dateValue = item['date'].toString();
-        // var formatD = [dateValue.slice(0, 4), "-", dateValue.slice(4, 6), "-", dateValue.slice(6, 8)].join('');
-
-        // item['dateRect'] = formatD
-
-
-        //let searchDateValue = moment(item['date'].toString(), "YYYYMMDD").toDate();
-    });
-
 
     //- Create Array for Charts
     const dateValues = data.map(dv => ({
@@ -350,7 +338,7 @@ function createLegend(svgGroup){
 
 
 function selectCalendarRect(selectDate, actualRectGraphics){
-    /*
+    /* Display the details for the article
 
     Accepts : selectDate (datetime) date to be selected
 
@@ -363,7 +351,6 @@ function selectCalendarRect(selectDate, actualRectGraphics){
 
     actualRectGraphics.selectAll("rect").each(item => {
 
-      
       if (firstItem == true){
         console.log(item);
 
@@ -372,7 +359,6 @@ function selectCalendarRect(selectDate, actualRectGraphics){
         firstItem = false;
       }
     });
-
 }
 
 function calendarMouseOver(){
