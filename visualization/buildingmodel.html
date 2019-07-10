@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Building the Model</title>
+
+    <!-- CSS: Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- CSS: Custom for Site -->
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    
+
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+
+        <!-- Landing Page Link -->
+        <a class="navbar-brand" href="index.html">
+            Investing with Machine Learning
+        </a>
+
+
+        <!-- Hamburger Menu -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+            data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" 
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <!-- Links for Nav Bar -->
+        <div id="navbarNavDropdown" class="navbar-collapse collapse">
+            
+            <!--Ensure for buttons to be left justified-->
+            <ul class="navbar-nav mr-auto">
+            </ul>
+
+            <ul class="navbar-nav">
+            
+                <!-- Drop down list of skills -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Details
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="newslabels.html">News Label</a>
+                        <a class="dropdown-item" href="buildingmodel.html">Building the Model</a>
+                        <a class="dropdown-item" href="results.html">Results</a>
+                    </div>
+                </li>
+
+                <!-- Social Links -->
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="https://github.com/mollyperlich/finalProject">GitHub</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container mt-3">
+
+        <h3>Building The Model</h3>
+        <p>Outline the steps that were used to create and select the best model which was done within a 
+            <a href = "https://github.com/mollyperlich/finalProject/blob/master/Joey/joey_stock_classification-stratified.ipynb" 
+            target="_blank">Jupyter Notebook</a>.</p>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>1 Import JSON</h5>
+                <p>Import JSON data with categorized dates </p>
+                <img src="static/images/BuildModel_1.jpeg" class="img-fluid"> 
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>2 Convert to Pandas</h5>
+                <p>Data is in raw form - convert data to pandas dataframe</p>
+                <img src="static/images/BuildModel_2.jpeg" class="img-fluid"> 
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>3 Spread</h5>
+                <p>Take a look at the spread of the data </p>
+                <img src="static/images/BuildModel_3.jpeg" class="img-fluid"> 
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>4 Pre-Process</h5>
+                <p>Clean up upper casing/punctuation/symbols/spacing. Delete stop words</p>
+                <img src="static/images/BuildModel_4.png" class="img-fluid"> 
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>5 Check for no content</h5>
+                <p>Some of the rows have little to no content (threshold: less than 100 words). Delete these data entries to reduce 
+                    risk of error in the model (about 100 entries deleted) </p>
+                <img src="static/images/BuildModel_5.png" class="img-fluid"> 
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>6 Split for training and test</h5>
+                <p>Because the data is so heavily biased towards the holding parameter, stratify the sampling (700 from each category).
+                Unfortunately, because of this, we are losing a lot of valuable data. If more time was permissible, 
+                I could run multiple iterations for each model each with different random samples from the large bin  </p>
+                <img src="static/images/BuildModel_6.png" class="img-fluid"> 
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>7 Classification Models</h5>
+                <p>Data has now been converted, cleaned, prepped, and split
+                        Run 5 different text classification models
+                        Models to be evaluated on accuracy score, recall, and precision </p>
+                <img src="static/images/BuildModel_7.png" class="img-fluid"> 
+            </div>
+        </div>
+
+        <div class="row mt-4 mb-4">
+            <div class="col-12">
+                <h5>8 Choose Best Model</h5>
+                <p>Random Forests gave me the best results with accuracy over 60% across the board </p>
+                <img src="static/images/BuildModel_8.png" class="img-fluid"> 
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- JS: Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- JS: D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</body>
+</html>
