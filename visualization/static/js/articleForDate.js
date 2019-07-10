@@ -4,49 +4,113 @@ Data is stored within AWS DynamoDB and there is a AWS Lambda function that retur
 articles for a given date
 */
 
+console.log("-> articlesForData.js");
+
 
 //-- Const
+// URL to Restful endpoint that returns articles
 const ARTICLEURL = "https://1wvzwvo96a.execute-api.us-west-2.amazonaws.com/dev?searchdate=";
 
-const ARTICLETITLESDIV = "#article-titles";
+// ID of div that contains the metadata which is to change color
+const ARTICLE_MetadataDiv ="#article-metadatadiv";
+
+// ID of the div that displays the date
+const ARTICLE_MetadataTitle = "#article-metadatatitle";
+
+// ID of the div that contains details
+const ARTICLE_DetailsDiv = "#article-detailsdiv";
 
 
 
-
-function updateArticleDetails(searchDate){
-    /* Updates the UI based on the 
+async function updateArticleDetails(searchDate, actualResult){
+    /* Updates the UI based on the search date provided.
 
     Accepts : searchDate: (int) date to populate NY Time articles for; format of YYYYMMDD
+              actualResult (string) actual result for date selected, values include:
+                    "Hold", "Buy", "Sell", "Unknown"
                 
     Returns : undefined
     */
-
 
     console.log("-> updateArticleDetails");
 
 
     //- Check Parameters
     if (Number.isInteger(searchDate) == false){
-        //- Update UI
-        let emptyArticles = [];
+        throw `Invalid search date: ${searchDate}`;
+    }
 
-        populateArticles(emptyArticles);
-
-
-        throw `Invalid search date: {searchDate}`;
+    console.log(`actualResult: ${actualResult}`);
+    if (actualResult == ''){
+        actualResult = "Unknown";
     }
 
 
     //- Get Articles
-    let articles = getArticlesFromEndpoint(searchDate);
+    let sourceData = await getArticlesFromEndpointAsync(searchDate);
 
+
+    //- Update Metadata
+    updateArticleMetadata(searchDate, actualResult);
+
+
+    //- Update Titles
+    updateArticleTitles(sourceData);
 }
 
 
-function populateArticles(sourceArticles){
-    /*
 
-    Accepts : sourceArticles (array) Contains the articles for the date
+function updateArticleMetadata(searchDate, actualResult){
+    /* Sets the metadata for the selected date on calendar; changes the style and updates the date.
+
+    Accepts : searchDate: (int) date to populate NY Time articles for; format of YYYYMMDD
+              actualResult: (string) actual result for date selected, values include:
+                    "Hold", "Buy", "Sell", "Unknown"
+        
+    Returns : undefined
+    */
+
+    console.log("-> updateArticleMetadata");
+
+
+    //- Reference Metadata Div
+    let articleMetadataDiv = d3.select(ARTICLE_MetadataDiv);
+
+
+    //- Determine CSS Style
+    let resultStyle = "unknownresult"
+
+    if (actualResult == 'Hold'){
+        resultStyle = "holdresult";
+    }else if (actualResult == "Buy"){
+        resultStyle = "buyresult";
+    }else if (actualResult == "Sell"){
+        resultStyle = "sellresult";
+    }
+
+
+    //- Update Style
+    articleMetadataDiv.attr("class", `${resultStyle} resultcontainer`);
+
+
+    //- Reference Title Div
+    let articleTitleDiv = d3.select(ARTICLE_MetadataTitle);
+
+    //- Remove Existing
+    articleTitleDiv.selectAll("p").remove();
+
+    //- Add Title
+    let searchDateValue = moment(searchDate.toString(), "YYYYMMDD").toDate();
+
+    articleTitleDiv.append("p")
+        .text(moment(searchDateValue).format("dddd MMMM Do, YYYY"));
+}
+
+
+function updateArticleTitles(sourceData){
+    /* Updates the UI by adding rows and columns with the articles provided. There are to be 3 articles per row.
+
+    Accepts : sourceData (array) Contains the articles for the date
                 title: (string) title of article
                 id: (string) unique identifier of the news article; created when downloaded
                 sourceurl: (string) Url of the news article on the NY Times website
@@ -56,73 +120,104 @@ function populateArticles(sourceArticles){
     Returns : undefined
     */
 
-    console.log("-> populateArticles");
+    console.log("-> updateArticleTitles");
+
+    //- Select Div
+    let articleDetailsDiv = d3.select(ARTICLE_DetailsDiv);
 
 
-    let articleList =  d3.select(ARTICLETITLESDIV);
+    //- Remove Existing
+    articleDetailsDiv.selectAll("div").remove();
 
-    articleList.selectAll("li")
-        .data(sourceArticles)
-        .enter()
-        .append("li")
-        .html(d => {
-            //- Get Article Details
-            sourceUrl = d['sourceurl'];
-            title = d['title'];
 
-            //- Create HTML
-            sourceHtml = "";
+    let articleCounter = 0;
+    let rowDiv = "";
 
-            if (sourceUrl != 'NA'){
-                sourceHtml = `<a href='${sourceUrl}' target='_blank'>${title}</a>`;
-            }
-            else{
-                sourceHtml = title;
-            }
 
-            return sourceHtml;
-        })
-        
-    
+    sourceData.forEach(articleData => {
 
+        //- Create Row
+        if (articleCounter == 0){
+            rowDiv = articleDetailsDiv.append("div")
+                           .attr("class", "row mt-3");
+       }
+
+
+       //- Create Column
+       let columnClassAttr = "";
+       let sourceHtml = "";
+
+       if (articleData['imageurl'] == "NA"){
+
+            //- Add Title Only
+            columnClassAttr = "col-sm-12 col-md-4";
+
+            sourceHtml = `<a href='${articleData['sourceurl']}' target='_blank'>` + 
+                    `${articleData['title']}` + 
+                    `</a>`; 
+       }
+       else
+       {
+            //- Add Image and Text
+            columnClassAttr = "col-sm-12 col-md-4 text-truncate";
+
+            sourceHtml = `<div class='text-center'><a href='${articleData['sourceurl']}' target='_blank'>` + 
+                        `<img src='${articleData['imageurl']}' class='img-fluid rounded resultimage'>` + 
+                        `</a></div>` + 
+                        `<a href='${articleData['sourceurl']}' target='_blank'>` + 
+                        `${articleData['title']}` + 
+                        `</a>`;
+       }
+
+       let articleColumn = rowDiv.append("div")
+                .attr("class", columnClassAttr);
+
+        articleColumn.html(sourceHtml);
+
+
+       //- Check Articles in Row
+       //  Have 3 articles in each row; when 3 found then reset article counter to 0 to create new row
+       articleCounter +=1;
+
+       if (articleCounter == 3){
+           articleCounter = 0;
+       }
+    });
 }
 
 
-function getArticlesFromEndpoint(searchDate){
+async function getArticlesFromEndpointAsync(searchDate){
     /* Call AWS Lambda function to get data from endpoint
 
-    Accepts : searchDate: (int) date to get articles for
+    Accepts : searchDate: (int) date to get articles for; YYYYMMDD format
 
-    Returns : (list) articles from endpoint
-                "ID" : (string) unique identifier of article
-                "title" : (string) title of the article
-                "sourceurl" : (string) URL to the article on the NY Times website
-                "imageurl" : (string) URL to image assoicated with article; "NA" none found
-                "publishdate" : (int) year when published; YYYYMMDD
+    Returns : (array) list of the articles for the data provided
+                title: (string) title of article
+                id: (string) unique identifier of the news article; created when downloaded
+                sourceurl: (string) Url of the news article on the NY Times website
+                imageurl: (string) Url to image from the news article; could be empty
+                publishdate: (int) Date when the article was published, yyyyMMdd
     */
 
     console.log("-> getArticlesFromEndpoint");
 
-    //- Create Proxy URL
-    //  Issues setting up AWS Gateway to allow remote access use proxy
-    let sourceUrl = 'https://cors-anywhere.herokuapp.com/' + ARTICLEURL + searchDate;
+    try{
+
+        //- Get Data
+        let sourceUrl = ARTICLEURL + searchDate;
+
+        let sourceData = await d3.json(sourceUrl);
+
+        console.log(`Success in getting data from endpoint: ${searchDate}`);
+        console.table(sourceData)
 
 
-    d3.json(sourceUrl).then(data => {
-        console.log("Success getting articles");
-        console.table(data);
+        return sourceData;
 
-        populateArticles(data);
+    } catch(err){
+        console.log(err);
 
-    }).catch(e => {
-        console.log(`Failure getting articles: ${e}`);
-
-        let emptyArticles = [];
-        populateArticles(emptyArticles);
-    });
-
+        let emptyData = [];
+        return emptyData;
+    }
 }
-
-
-
-

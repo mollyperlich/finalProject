@@ -1,0 +1,98 @@
+<head>
+    
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="static/styles.css">
+  </head>
+  
+  <body>
+    
+    <div class="row">
+        <div id="myDiv" class="column" style="width: 700px; height: 500px;"></div>
+        <div  class="column" style="width: 700px; height: 500px;" id="linksDiv">
+            <bold>Date: 2018-10-31 Recommendation: Hold<bold><br>
+            <bold>News Headlines<bold><br><hr>
+            <a href="https://www.nytimes.com/2018/10/31/business/dealbook/facebook-revenue-news.html">DealBook Briefing: Why Facebook Broke Its Revenue Growth</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/us/politics/trump-birthright-citizenship.html">On Politics: Trump Wants to End Birthright Citizenship With Executive Order</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/us/politics/obama-midterm-elections.html">Fight Fire With Fire, or Be Civil With Trump? The Obama Coalition Is Unsure</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/business/dealbook/fed-banking-regulation.html">The Fed Is Relaxing Banking Rules. What Goodies Are the Banks Getting?</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/business/dealbook/united-kingdom-digital-tax.html">The Problems With Britain’s New Digital Tax</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/us/politics/democrats-dark-money-midterms.html">With $30 Million, Obscure Democratic Group Floods the Zone in House Races</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/technology/google-sexual-harassment-walkout.html">Google Faces Internal Backlash Over Handling of Sexual Harassment</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/business/stock-market-tech.html">Tech Drove Stocks Skyward. It Was a Different Story on the Way Down.</a><br>
+            <a href="https://www.nytimes.com/2018/10/31/us/politics/trump-ohio-north-dakota.html">The Trump Effect, Kobach’s Hand, Tester and DeWine Ads: 6 Days to Go</a><br>
+            <a href="https://www.nytimes.com/2018/10/30/technology/alphabet-executive-sexual-harassment-resigns.html">Alphabet Executive Resigns After Harassment Accusation</a>
+    </div>
+        <!--  -->
+    </div>
+    
+    <div class="row">
+        <div id="histDiv" class="column" style="width: 700px; height: 500px;"></div>
+        <div class="column" style="width: 700px; height: 500px;"><p id="ExplDiv" size=10><br><br><br>
+          <bold>Rule for Labelling News Articles</bold>       
+          
+          <ul>
+            <li>
+                Consider the price of a share of stock S(d<sub>i</sub>) on date d<sub>i</sub>
+            </li>
+            <li>
+                Daily return r(d<sub>i</sub>) for date d<sub>i</sub> is equal to S(d<sub>i+1</sub>)/S(d<sub>i</sub>)
+            </li>
+            <li>
+                Based on a series of r(d<sub>i</sub>) values construct a lognormal model of stock price returns
+            </li>
+            <li>
+                Identify the 10th percentile and the 90th percentile of r(d<sub>i</sub>)
+            </li>
+            <li>
+                Consider a news article N(d<sub>i</sub>) published on date d<sub>i</sub>
+            </li>
+            <li>
+                if r(d<sub>i</sub>) > 90th percentile then label as "Buy"
+            </li>
+            <li>
+                if r(d<sub>i</sub>) < 10th percentile then label as "Sell"
+            </li>
+            <li>
+                if neither "Hold"
+            </li>             
+          </ul>
+          
+        </p>  </div>
+    </div>
+    <div class="row">
+        <div id="mvnDiv" class="column" style="width: 700px; height: 500px;"></div>
+        <div id="mvnExplDiv" class="column" style="width: 700px; height: 500px;" id="ExplDiv"><br><br><br>
+            <bold>Distribution of Aggregate Buy/Sell Counts (575 stocks)</bold>       
+          
+          <ul>
+            <li>
+                Since stock prices of the 575 stocks under consideration may not be independent random variables,
+                one cannot use a trinomial distribution of independent trials for calculating percentiles of counts
+            </li>
+            <li>
+                To address the correlation among stock prices, a multi-variate normal distribution was utilized to
+                study the interaction between 'buy' and 'sell' counts
+            </li>
+            <li>
+                Using the stock prices in the data set a multi-variate normal distiribution was modelled, from which
+                10,000 simulated values of buy-sell pairs were generated.
+            </li>
+            <li>
+                This simulated data set was used to observe the conditional distribution of buy/sell counts while
+                fixing the value of sell/buy respectively.
+            </li>
+            <li>
+                The 90th percentile of sell/buy counts so obtained were used to assign "Buy", "Sell" or "Hold" for
+                a given date.
+            </li>
+          </ul>
+        
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+    <script type="text/javascript" src="static/scatter.js"></script>
+    <script type="text/javascript" src="static/mvn.js"></script>
+  </body>
