@@ -104,18 +104,23 @@ function populateCalendar(data) {
     //- Format Date Required for Calendar
     // format int Date to a string to get YYYY-MM-DD format.
     data.forEach((item, index) => {
-        var dateValue = item['date'].toString();
-        var formatD = [dateValue.slice(0, 4), "-", dateValue.slice(4, 6), "-", dateValue.slice(6, 8)].join('');
+        // var dateValue = item['date'].toString();
+        // var formatD = [dateValue.slice(0, 4), "-", dateValue.slice(4, 6), "-", dateValue.slice(6, 8)].join('');
 
-        item['dateRect'] = formatD
+        // item['dateRect'] = formatD
+
+
+        //let searchDateValue = moment(item['date'].toString(), "YYYYMMDD").toDate();
     });
 
 
     //- Create Array for Charts
     const dateValues = data.map(dv => ({
-      date: d3.timeDay(new Date(dv.dateRect)),
+
+      date: moment(dv['date'].toString(), "YYYYMMDD").toDate(),
       actual: dv.actual,
-      predicted: dv.predicted
+      predicted: dv.predicted,
+      originalDate: dv.date
     }));
 
 
@@ -196,9 +201,9 @@ function populateCalendar(data) {
 
 
     // actual outcome cell colors
-    year
-      .append("g")
-      .selectAll("rect")
+    let actualRectGraphics = year.append("g");
+
+    actualRectGraphics.selectAll("rect")
       .data(d => d.values)
       .join("rect")
       .attr("width", cellSize - 2.5)
@@ -249,6 +254,11 @@ function populateCalendar(data) {
 
     //- Create Legend
     createLegend(group)
+
+
+    //- Select First Value
+    let selectDate = new Date(2019, 1,1);
+    selectCalendarRect(selectDate, actualRectGraphics);
 }
 
 
@@ -338,6 +348,32 @@ function createLegend(svgGroup){
       .text("Unknown");
 }
 
+
+function selectCalendarRect(selectDate, actualRectGraphics){
+    /*
+
+    Accepts : selectDate (datetime) date to be selected
+
+    Returns : nothing
+    */
+
+    console.log("--> selectCalendarRect");
+
+    let firstItem = true;
+
+    actualRectGraphics.selectAll("rect").each(item => {
+
+      
+      if (firstItem == true){
+        console.log(item);
+
+        updateArticleDetails(item['originalDate'], item['actual']);
+        
+        firstItem = false;
+      }
+    });
+
+}
 
 function calendarMouseOver(){
     /* When user moves mouse over the rectangle, updates the CSS to provide feedback and 
