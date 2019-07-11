@@ -27,3 +27,6 @@ Other languages/libraries used:
 * JS (D3) / Plotly
 * Amazon AWS 
 
+Final Project Link:
+* https://investmachinelearning.herokuapp.com/index.html
+
